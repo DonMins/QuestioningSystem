@@ -1,9 +1,10 @@
 package com.ex.controllers;
 
 import com.ex.dao.AnswerOptionsDao;
+import com.ex.dao.GroupProfileDao;
 import com.ex.dao.ProfileDao;
 import com.ex.dao.QuestionDao;
-import com.ex.entity.Profile;
+import com.ex.entity.GroupOfProfiles;
 import com.ex.entity.User;
 import com.ex.service.GeneralResources;
 import com.ex.service.SecurityService;
@@ -49,19 +50,20 @@ public class MainController {
     @Autowired
     private AnswerOptionsDao answerOptionsDao;
 
-    private Long Id = 0L; // Id страницы на которой расположена текущая анкета
+    @Autowired
+    private GroupProfileDao groupProfileDao;
 
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
-    public String index(Model model) {
-        List<Profile> profileList = profileDao.findAll();
+    @RequestMapping(value = {"/", "/GroupOfProfile"}, method = RequestMethod.GET)
+    public String GroupOfProfile(Model model) {
+        List<GroupOfProfiles> groupOfProfiles = groupProfileDao.findAll();
         Map<Integer, String> map = new HashMap<>();
 
-        for (Profile profile : profileList) {
-            map.put(profile.getIdProfile(), profile.getNameProfile());
+        for (GroupOfProfiles groupProfile : groupOfProfiles) {
+            map.put(groupProfile.getIdgroupOfProfiles(), groupProfile.getTitle());
         }
 
-        model.addAttribute("index", map);
+        model.addAttribute("GroupOfProfile", map);
         return "mainPage";
     }
 
@@ -69,14 +71,15 @@ public class MainController {
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
     public String profile(@PathVariable Long id) {
         GeneralResources generalResources = new GeneralResources();
-        Id = id;
-        return "profile";
+         return "profile";
     }
 
     @RequestMapping(value = "/profileGet", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<?> profileGet() throws IOException {
-        List<Profile> profiles = profileDao.findByIdProfile(Id);
+        List<GroupOfProfiles> groupOfProfiles = groupProfileDao.findAll();
+       // List<Profile> groupOfProfiles = profileDao.findAll();
+
 
 //       List<Question> questionList = questionDao.findAllByIdProfile(Id);
 
@@ -84,11 +87,10 @@ public class MainController {
 //       System.out.println(answerOptionsList);
 
         JSONObject obj = new JSONObject();
-        obj.put("ProfileData", profiles);
+        obj.put("groupOfProfiles", groupOfProfiles);
       //  obj.put("QuestionList", questionList);
 
         System.out.println(obj);
-
         return ResponseEntity.ok().body(obj.toString());
     }
 

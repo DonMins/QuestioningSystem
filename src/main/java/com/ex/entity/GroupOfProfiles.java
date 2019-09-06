@@ -3,6 +3,7 @@ package com.ex.entity;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public class GroupOfProfiles {
     private String title;
 
     @OneToMany(mappedBy = "groupOfProfiles")
-    private List<Profile> profileList;
+    private List<Profile> profileList = new ArrayList<>();
 
     public GroupOfProfiles(){}
 

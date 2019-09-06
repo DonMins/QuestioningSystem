@@ -11,37 +11,39 @@
     <script src="${contextPath}/resources/extjs/ext-all.js" type="text/javascript"></script>
     <link href="${contextPath}/resources/extjs/resources/css/ext-all.css" rel="stylesheet">
     <script type="text/javascript" src="${contextPath}/resources/js/app.js"></script>
+    <link href="${contextPath}/resources/js/style.css" rel="stylesheet">
+    <meta id="_csrf_token" value="${_csrf.token}"/>
+
     <script>
-        Ext.create('Ext.Panel', {
-            layout: 'hbox', // важно
-            renderTo: Ext.getBody(),
-            items: [
-                { xtype: 'button', text: 'Select' },
-                { xtype: 'container', flex:1 },        // <== magic )
-                { xtype: 'button', text: 'Advanced options' },
-                { xtype: 'button', text: 'Back' }
-            ]
-        })
-
-
+        var urlJSON = "${contextPath}/profileGet";
     </script>
+
+
 </head>
 <body>
 <ul>
-    <button style="float:right" class="button" onclick="document.forms['logoutForm'].submit()">Выйти    </button>
+<%--    <button style="float:right" class="button" onclick="document.forms['logoutForm'].submit()">Выйти    </button>--%>
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">
     <form id="logoutForm" method="POST" action="${contextPath}/logout">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
-    <p class="userInput" align="right"> Вы вошли как: ${pageContext.request.userPrincipal.name}</p>
+<%--    <p class="userInput" align="right"> Вы вошли как: ${pageContext.request.userPrincipal.name}</p>--%>
 
-        </c:if>
-        <c:forEach items="${index}" var="item" varStatus="status">
-        <tr>
-            <h2> <a href="${contextPath}/profile/${item.key}">${item.value}</a></h2>
-        </tr>
-        </c:forEach>
+    </c:if>
+    <h1> <span id = test> </span>  </h1>
+
+<%--    <c:if test="${GroupOfProfile.size()!=0}">--%>
+<%--          <c:forEach items="${GroupOfProfile}" var="item" varStatus="status">--%>
+<%--            <tr>--%>
+<%--            <h2> <a href="${contextPath}/profile/${item.key}">${item.value}</a></h2>--%>
+<%--        </tr>--%>
+<%--        </c:forEach>--%>
+<%--    </c:if>--%>
+<%--    <c:if test="${GroupOfProfile.size()==0}">--%>
+<%--        <h1>Список групп анкет пустой! </h1>--%>
+<%--    </c:if>--%>
+
 
 
 
