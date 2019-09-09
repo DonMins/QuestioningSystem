@@ -11,13 +11,12 @@
     <script src="${contextPath}/resources/extjs/ext-all.js" type="text/javascript"></script>
     <link href="${contextPath}/resources/extjs/resources/css/ext-all.css" rel="stylesheet">
     <script type="text/javascript" src="${contextPath}/resources/js/app.js"></script>
-    <link href="${contextPath}/resources/js/style.css" rel="stylesheet">
+
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
         var urlJSON = "${contextPath}/profileGet";
     </script>
-
 
 </head>
 <body>
@@ -31,7 +30,7 @@
 <%--    <p class="userInput" align="right"> Вы вошли как: ${pageContext.request.userPrincipal.name}</p>--%>
 
     </c:if>
-    <h1> <span id = test> </span>  </h1>
+<%--    <h1> <span id = test> </span>  </h1>--%>
 
 <%--    <c:if test="${GroupOfProfile.size()!=0}">--%>
 <%--          <c:forEach items="${GroupOfProfile}" var="item" varStatus="status">--%>

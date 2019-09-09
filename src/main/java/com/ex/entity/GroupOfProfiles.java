@@ -20,7 +20,7 @@ public class GroupOfProfiles {
     @Column(name = "title" )
     private String title;
 
-    @OneToMany(mappedBy = "groupOfProfiles")
+    @OneToMany(mappedBy = "groupOfProfiles",  fetch = FetchType.EAGER)
     private List<Profile> profileList = new ArrayList<>();
 
     public GroupOfProfiles(){}

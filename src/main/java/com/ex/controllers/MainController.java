@@ -10,7 +10,9 @@ import com.ex.service.GeneralResources;
 import com.ex.service.SecurityService;
 import com.ex.service.UserService;
 import com.ex.validator.UserValidator;
-import org.json.JSONObject;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -78,20 +80,38 @@ public class MainController {
     @ResponseBody
     public ResponseEntity<?> profileGet() throws IOException {
         List<GroupOfProfiles> groupOfProfiles = groupProfileDao.findAll();
-       // List<Profile> groupOfProfiles = profileDao.findAll();
+
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        ObjectNode rootNode = mapper.createObjectNode();
+
+        for (int i =0; i<groupOfProfiles.size();i++) {
+            List<String> profileList = profileDao.findByIdGroup(groupOfProfiles.get(i).getIdgroupOfProfiles());
+            System.out.println(profileList.get(0));
 
 
-//       List<Question> questionList = questionDao.findAllByIdProfile(Id);
+            ObjectNode childNode1 = mapper.createObjectNode();
+            childNode1.put("idgroupOfProfiles", groupOfProfiles.get(i).getIdgroupOfProfiles());
+            childNode1.put("title", groupOfProfiles.get(i).getTitle());
 
-//       List<AnswerOptions> answerOptionsList = answerOptionsDao.findAllByIdProfile(Id);
-//       System.out.println(answerOptionsList);
+            ArrayNode arrayNode2 = mapper.createArrayNode();
 
-        JSONObject obj = new JSONObject();
-        obj.put("groupOfProfiles", groupOfProfiles);
-      //  obj.put("QuestionList", questionList);
+            for (int j = 0; j < profileList.size(); j++) {
+                ObjectNode childNode2 = mapper.createObjectNode();
+                childNode2.put("idProfile", j);
+                childNode2.put("name", profileList.get(j));
+                arrayNode2.add(childNode2);
+            }
+            childNode1.put("nameProfile", arrayNode2);
+            arrayNode.add(childNode1);
+        }
 
-        System.out.println(obj);
-        return ResponseEntity.ok().body(obj.toString());
+          rootNode.put("GroupOfProfiles", arrayNode);
+
+        String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(rootNode);
+        System.out.println(jsonString);
+
+        return ResponseEntity.ok().body(jsonString);
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
