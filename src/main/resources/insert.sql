@@ -1,5 +1,5 @@
 -- INSERT  INTO GROUPOFPROFILES VALUES ( 1,'Компании');
--- INSERT  INTO GROUPOFPROFILES VALUES ( 2,'Что где когда');
+INSERT  INTO GROUPOFPROFILES VALUES ( 3,'Что');
 -- --
 -- INSERT INTO PROFILE VALUES (1,  'Здравствуйте, потратьте, пожалуйста, несколько минут своего времени на заполнение следующей анкеты.','Оценка аквапарка',1);
 --
@@ -12,7 +12,7 @@
 -- INSERT INTO ANSWEROPTIONS VALUES (4,'Никогда',4,1);
 --
 --
-INSERT INTO PROFILE VALUES (3,  'Здравствуйте, потратьте, пожалуйста, несколько минут своего времени на заполнение следующей анкеты.','Оценка чая',2);
+-- INSERT INTO PROFILE VALUES (3,  'Здравствуйте, потратьте, пожалуйста, несколько минут своего времени на заполнение следующей анкеты.','Оценка чая',2);
 --
 -- INSERT INTO QUESTION VALUES (3, 'Как часто Вы ходите в кафе?', 'выбери одно',2);
 --

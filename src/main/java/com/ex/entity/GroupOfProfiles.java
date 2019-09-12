@@ -57,13 +57,12 @@ public class GroupOfProfiles  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupOfProfiles that = (GroupOfProfiles) o;
-        return Objects.equals(idgroupOfProfiles, that.idgroupOfProfiles) &&
-                Objects.equals(title, that.title);
+        return Objects.equals(idgroupOfProfiles, that.idgroupOfProfiles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idgroupOfProfiles, title);
+        return Objects.hash(idgroupOfProfiles);
     }
 
     @Override

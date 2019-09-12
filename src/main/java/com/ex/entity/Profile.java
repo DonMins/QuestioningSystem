@@ -34,6 +34,11 @@ public class Profile {
 
     public Profile(){}
 
+    public Profile(Integer id, String nameProfile){
+        this.idProfile = id;
+        this.nameProfile = nameProfile;
+    }
+
     public GroupOfProfiles getGroupOfProfiles() {
         return groupOfProfiles;
     }
@@ -80,14 +85,12 @@ public class Profile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Profile profile = (Profile) o;
-        return Objects.equals(idProfile, profile.idProfile) &&
-                Objects.equals(nameProfile, profile.nameProfile) &&
-                Objects.equals(description, profile.description);
+        return Objects.equals(idProfile, profile.idProfile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProfile, nameProfile, description);
+        return Objects.hash(idProfile);
     }
 
     @Override

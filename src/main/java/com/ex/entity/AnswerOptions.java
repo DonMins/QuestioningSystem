@@ -80,15 +80,13 @@ public class AnswerOptions {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnswerOptions that = (AnswerOptions) o;
-        return Objects.equals(idAnswerOptions, that.idAnswerOptions) &&
-                Objects.equals(nameAnswerOptions, that.nameAnswerOptions) &&
-                Objects.equals(position, that.position);
+        return Objects.equals(idAnswerOptions, that.idAnswerOptions);
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAnswerOptions, nameAnswerOptions, position);
+        return Objects.hash(idAnswerOptions);
     }
 
     @Override

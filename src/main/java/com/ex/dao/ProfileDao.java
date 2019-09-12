@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProfileDao extends JpaRepository<Profile, Integer> {
 
-    @Query(value = "SELECT IDPROFILE,NAMEPROFILE FROM Profile where IDGROUPPROFILE =idGroupProfile", nativeQuery = true)
-    List<Profile> findByIdGroupProfiles(@Param("id") Integer idGroupProfile);
+    @Query(value = "SELECT IDPROFILE,NAMEPROFILE, DESCRIPTION FROM Profile where IDGROUPPROFILE =:id", nativeQuery = true)
+    List<Profile> findByIdGroupProfiles(@Param("id") Integer id);
 
 }

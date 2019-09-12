@@ -78,14 +78,12 @@ public class Question {
          if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
-        return Objects.equals(idQuestion, question.idQuestion) &&
-                Objects.equals(type, question.type) &&
-                Objects.equals(nameQuestion, question.nameQuestion);
+        return Objects.equals(idQuestion, question.idQuestion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idQuestion, type, nameQuestion);
+        return Objects.hash(idQuestion);
     }
 
     @Override
