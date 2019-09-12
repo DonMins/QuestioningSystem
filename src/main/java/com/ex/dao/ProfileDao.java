@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProfileDao extends JpaRepository<Profile, Integer> {
-    @Query("select  nameProfile from Profile where idGroupProfile=:id")
-    List<String> findByIdGroup(@Param("id") Integer id);
 
+    @Query(value = "SELECT IDPROFILE,NAMEPROFILE FROM Profile where IDGROUPPROFILE =idGroupProfile", nativeQuery = true)
+    List<Profile> findByIdGroupProfiles(@Param("id") Integer idGroupProfile);
 
 }

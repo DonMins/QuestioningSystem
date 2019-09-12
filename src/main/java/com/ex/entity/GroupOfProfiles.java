@@ -1,6 +1,7 @@
 package com.ex.entity;
 
-import org.springframework.lang.NonNull;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,18 +10,20 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "GroupOfProfiles")
-public class GroupOfProfiles {
+public class GroupOfProfiles  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idgroupOfProfiles" )
     private Integer idgroupOfProfiles;
 
     @Basic
-    @NonNull
+    @Nullable
     @Column(name = "title" )
     private String title;
 
-    @OneToMany(mappedBy = "groupOfProfiles",  fetch = FetchType.EAGER)
+    @Transient
+    @JsonIgnore
+    @OneToMany(mappedBy = "groupOfProfiles")
     private List<Profile> profileList = new ArrayList<>();
 
     public GroupOfProfiles(){}
@@ -70,4 +73,6 @@ public class GroupOfProfiles {
                 ", title='" + title + '\'' +
                 '}';
     }
+
+
 }

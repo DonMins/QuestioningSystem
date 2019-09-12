@@ -1,4 +1,5 @@
 package com.ex.entity;
+
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -19,14 +20,15 @@ public class Profile {
     private String nameProfile;
 
     @Basic
-    @NonNull
     @Column(name = "description")
-    private  String description;
+    private  String description ;
 
+    @Transient
     @OneToMany(mappedBy = "profile")
     private List<Question> questionList;
 
     @ManyToOne
+    @Transient
     @JoinColumn(name = "idGroupProfile")
     private GroupOfProfiles groupOfProfiles;
 

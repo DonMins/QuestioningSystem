@@ -7,20 +7,20 @@ Ext.onReady(function(){
 
         fields: [
             { name: 'idgroupOfProfiles', type: 'int' },
-            {name: 'title', type: 'string' }
-        ],
-        hasMany: { model: 'Profiles', name: 'nameProfile' ,associationKey: 'nameProfile'}
+            {name: 'title', type: 'string' },
+        ]
+        // hasMany: { model: 'Profiles', name: 'nameProfile' ,associationKey: 'nameProfile'}
     });
 
-    Ext.define('Profiles', {
-        extend: 'Ext.data.Model',
-        idProperty: 'idProfile',
-
-        fields: [{ name: 'idProfile', type: 'int'},
-            { name: 'name', type: 'string'}
-        ],
-        belongsTo: 'GroupOfProfiles',
-    });
+    // Ext.define('Profiles', {
+    //     extend: 'Ext.data.Model',
+    //     idProperty: 'idProfile',
+    //
+    //     fields: [{ name: 'idProfile', type: 'int'},
+    //         { name: 'name', type: 'string'}
+    //     ],
+    //     belongsTo: 'GroupOfProfiles',
+    // });
 
     var myStore = Ext.create('Ext.data.Store', {
         model: 'GroupOfProfiles',
@@ -48,6 +48,8 @@ Ext.onReady(function(){
         id : 'listPanelProfiles',
         renderTo: Ext.getBody()
     });
+
+
     Ext.getCmp('listPanelProfiles').add({
              height: '100%',
              xtype:'gridpanel',
@@ -57,29 +59,30 @@ Ext.onReady(function(){
              flex: 0,
              sortable: false,
              columns: [
-                  // {
-                  //     width: 100,
-                  //     dataIndex: 'title'
-                  // },
-                 {
-                  width: 100,
-                     dataIndex: 'nameProfile',
-                     renderer: function(value, meta, record, colIndex, rowIndex, store, view) {
-                         var nameProfile=record.raw.nameProfile;
-                         var name="";
-                         var i =0;
+                  {
+                      width: 100,
+                      dataIndex: 'title'
+                  }
+                 // {
+                 //  width: 200,
+                 //     dataIndex: 'nameProfile',
+                 //     renderer: function(value, meta, record, colIndex, rowIndex, store, view) {
+                 //         var nameProfile=record.raw.nameProfile;
+                 //         let arrayProfile = [];
+                 //         var name = "";
+                 //         var i =0;
+                 //
+                 //         Ext.each(nameProfile,function(nameProf){
+                 //             name = nameProf['name'];
+                 //             arrayProfile.push(name);
+                 //             console.log(name);
+                 //         });
+                 //         return '<a href="#">'+name+'</a>';
+                 //     //    return '<a href="#">'+record.nameProfile().first().get("name")+'</a>';
+                 //
+                 //     },
 
-                         Ext.each(nameProfile,function(nameProf){
-                             name = nameProf['name'];
-                             console.log(name);
-
-                         });
-                         return '<a href="#">'+name+'</a>';
-                     //    return '<a href="#">'+record.nameProfile().first().get("name")+'</a>';
-
-                     },
-
-                 }],
+             ],
 
              renderTo: Ext.getBody()
     });

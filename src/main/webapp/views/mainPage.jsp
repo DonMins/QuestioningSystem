@@ -8,14 +8,14 @@
 <html>
 <head>
     <title>title</title>
-    <script src="${contextPath}/resources/extjs/ext-all.js" type="text/javascript"></script>
-    <link href="${contextPath}/resources/extjs/resources/css/ext-all.css" rel="stylesheet">
+    <script src="http://localhost:8080/extjs/ext-all.js" type="text/javascript"></script>
+    <link href="http://localhost:8080/extjs/resources/css/ext-all.css" rel="stylesheet">
     <script type="text/javascript" src="${contextPath}/resources/js/app.js"></script>
 
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
-        var urlJSON = "${contextPath}/profileGet";
+        var urlJSON = "${contextPath}/groupProfileGet";
     </script>
 
 </head>
@@ -30,7 +30,7 @@
 <%--    <p class="userInput" align="right"> Вы вошли как: ${pageContext.request.userPrincipal.name}</p>--%>
 
     </c:if>
-<%--    <h1> <span id = test> </span>  </h1>--%>
+   <h1> <span id = test> </span>  </h1>
 
 <%--    <c:if test="${GroupOfProfile.size()!=0}">--%>
 <%--          <c:forEach items="${GroupOfProfile}" var="item" varStatus="status">--%>

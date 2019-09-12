@@ -13,6 +13,7 @@
         <intercept-url pattern="/" access="hasAnyRole('ROLE_USER')"/>
         <intercept-url pattern="/GroupOfProfile" access="hasAnyRole('ROLE_USER')"/>
         <intercept-url pattern="/profile" access="hasAnyRole('ROLE_USER')"/>
+        <intercept-url pattern="/test" access="hasAnyRole('ROLE_USER')"/>
 
         <form-login login-page="/login" default-target-url="/GroupOfProfile" authentication-failure-url="/login?error"
                     username-parameter="username" password-parameter="password"/>
