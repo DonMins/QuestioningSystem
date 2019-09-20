@@ -27,8 +27,8 @@ public class Profile {
     @OneToMany(mappedBy = "profile")
     private List<Question> questionList;
 
+
     @ManyToOne
-    @Transient
     @JoinColumn(name = "idGroupProfile")
     private GroupOfProfiles groupOfProfiles;
 

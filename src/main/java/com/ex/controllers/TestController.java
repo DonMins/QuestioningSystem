@@ -1,6 +1,7 @@
 package com.ex.controllers;
 
 import com.ex.dao.GroupProfileDao;
+import com.ex.dao.ProfileDao;
 import com.ex.entity.GroupOfProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,11 +19,15 @@ import java.util.List;
 public class TestController {
     @Autowired
     private GroupProfileDao groupProfileDao;
+    @Autowired
+    private ProfileDao profileDao;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GroupOfProfiles>> test() throws IOException {
-        List<GroupOfProfiles> groupOfProfiles = groupProfileDao.findIdAndTitle();
-        return  ResponseEntity.ok().body(groupOfProfiles);
+    public ResponseEntity<List<GroupOfProfiles>> tests() throws IOException {
+//        List<GroupOfProfiles> groupOfProfiles = groupProfileDao.findIdAndTitle();
+        List<GroupOfProfiles> groupOfProfilesList = groupProfileDao.findIdAndTitle();
+        System.out.println(groupOfProfilesList);
+        return  ResponseEntity.ok().body(groupOfProfilesList);
 
     }
 

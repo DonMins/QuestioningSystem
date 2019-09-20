@@ -1,0 +1,26 @@
+.styleNameUser{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    margin: 5px 0 0 5px;
+}
+.button{
+    padding:5px 15px;
+    background:darkgrey;
+    border:2px;
+    cursor:pointer;
+    border-radius: 2px;
+    font-size: 15pt;
+    font-weight: bold;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    top: 2px;
+}
+
+button:hover{
+    background: #b0ccf2; /* Цвет фона под ссылкой */
+    color: black; /* Цвет ссылки */
+}
+
+
+

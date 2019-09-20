@@ -14,11 +14,14 @@
         <intercept-url pattern="/GroupOfProfile" access="hasAnyRole('ROLE_USER')"/>
         <intercept-url pattern="/profile" access="hasAnyRole('ROLE_USER')"/>
         <intercept-url pattern="/test" access="hasAnyRole('ROLE_USER')"/>
+        <intercept-url pattern="/ProfileGet" access="hasAnyRole('ROLE_USER')"/>
 
-        <form-login login-page="/login" default-target-url="/GroupOfProfile" authentication-failure-url="/login?error"
+
+        <form-login login-page="/login" default-target-url="/testing" authentication-failure-url="/login?error"
                     username-parameter="username" password-parameter="password"/>
 
-        <logout logout-success-url="/login?logout"/>
+        <logout logout-success-url="/login?logout" logout-url="/logout"/>
+
     </http>
 
     <authentication-manager alias="authenticationManager">
@@ -34,4 +37,7 @@
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <beans:constructor-arg name="strength" value="11"/>
     </beans:bean>
+
+
+
 </beans:beans>

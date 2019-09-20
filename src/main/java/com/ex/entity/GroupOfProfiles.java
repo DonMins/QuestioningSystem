@@ -1,8 +1,5 @@
 package com.ex.entity;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.springframework.lang.Nullable;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +14,20 @@ public class GroupOfProfiles  {
     private Integer idgroupOfProfiles;
 
     @Basic
-    @Nullable
     @Column(name = "title" )
+
     private String title;
 
     @Transient
-    @JsonIgnore
     @OneToMany(mappedBy = "groupOfProfiles")
     private List<Profile> profileList = new ArrayList<>();
 
     public GroupOfProfiles(){}
+
+    public GroupOfProfiles(Integer id , String title) {
+        this.idgroupOfProfiles = id;
+        this.title = title;
+    }
 
     public List<Profile> getProfileList() {
         return profileList;

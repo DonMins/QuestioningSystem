@@ -1,5 +1,6 @@
 package com.ex.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -24,10 +25,12 @@ public class AnswerOptions {
     @Column(name = "position")
     private Integer position;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn()
     private Question question;
 
+    @JsonIgnore
     @ManyToMany
     @JoinColumn()
     private List<User> userList;
@@ -42,10 +45,12 @@ public class AnswerOptions {
         this.userList = userList;
     }
 
+    @JsonIgnore
     public Question getQuestion() {
         return question;
     }
 
+    @JsonIgnore
     public void setQuestion(Question question) {
         this.question = question;
     }

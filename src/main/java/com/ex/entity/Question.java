@@ -6,6 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "question")
+
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +21,7 @@ public class Question {
     @Column( name = "nameQuestion" )
     private String nameQuestion;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question",  fetch = FetchType.EAGER)
     private List<AnswerOptions> answerOptions;
 
     @ManyToOne
