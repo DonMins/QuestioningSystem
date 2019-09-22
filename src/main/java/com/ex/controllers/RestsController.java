@@ -11,6 +11,7 @@ import com.ex.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,36 +37,36 @@ public class RestsController {
     private QuestionDao questionDao;
 
     @RequestMapping(value = "/groupProfileGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<GroupOfProfiles> > groupProfileGet() {
+    public ResponseEntity<List<GroupOfProfiles>> groupProfileGet() {
         List<GroupOfProfiles> groupOfProfilesList = groupProfileDao.findIdAndTitle();
-        return  ResponseEntity.ok().body(groupOfProfilesList);
+        return ResponseEntity.ok().body(groupOfProfilesList);
     }
 
-     @RequestMapping(value = {"/profileGet"},produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-     public ResponseEntity<List<Profile> > profileGet(GroupOfProfiles groupProfile) {
-         List<Profile> profilesList = profileDao.findByIdGroupProfiles(groupProfile.getIdgroupOfProfiles());
-         return  ResponseEntity.ok().body(profilesList);
+    @RequestMapping(value = {"/profileGet"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Profile>> profileGet(GroupOfProfiles groupProfile) {
+        List<Profile> profilesList = profileDao.findByIdGroupProfiles(groupProfile.getIdgroupOfProfiles());
+        return ResponseEntity.ok().body(profilesList);
     }
 
-    @RequestMapping(value = "/questionGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
-    public ResponseEntity<List<Question> > questionGet(Profile profile) {
+    @RequestMapping(value = "/questionGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Question>> questionGet(Profile profile) {
         System.out.println(profile);
         List<Question> questionList = questionDao.findQuestionByIdProfile(profile.getIdProfile());
         System.out.println(questionList);
-        return  ResponseEntity.ok().body(questionList);
+        return ResponseEntity.ok().body(questionList);
     }
 
-    @PostMapping(value = "/answerGet",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<AnswerOptions> > answerGet(Question question) {
+    @PostMapping(value = "/answerGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<AnswerOptions>> answerGet(Question question) {
         List<AnswerOptions> answerOptionsList = answerOptionsDao.findAnswerByIdQuestion(question.getIdQuestion());
         System.out.println(answerOptionsList);
-        return  ResponseEntity.ok().body(answerOptionsList);
+        return ResponseEntity.ok().body(answerOptionsList);
     }
 
 
-
-
-
-
+    @RequestMapping(value = "/saveGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void saveGroupProfile(GroupOfProfiles groupOfProfiles) {
+        groupProfileDao.save(groupOfProfiles);
+    }
 
 }

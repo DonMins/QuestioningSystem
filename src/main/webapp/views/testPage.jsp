@@ -30,6 +30,8 @@
         var urlJSONGroupProfile = "${contextPath}/groupProfileGet";
         var urlJSONProfile = "${contextPath}/profileGet";
         var urlJSONQuestionAndAnswer = "${contextPath}/questionGet";
+        var saveGroupProfile = "${contextPath}/saveGroupProfile";
+
 
 
         <%--var nameUser = "${pageContext.request.userPrincipal.name}";--%>
@@ -45,7 +47,6 @@
                     ]
                 }
             });
-
 
             viewport = Ext.create('Ext.container.Viewport', {
                 renderTo: Ext.getBody(),
@@ -103,7 +104,7 @@
                                         break;
                                     }
                                     case 'childMenu_2': {
-                                        childMenu_2();
+                                        createGroupProfile();
                                         break;
                                     }
                                 }
