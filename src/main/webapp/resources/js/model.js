@@ -12,7 +12,7 @@ Ext.define('Profiles.model', {
         { name: 'idProfile', type: 'int' },
         {name: 'nameProfile', type: 'string' },
         {name: 'description', type: 'string' },
-
+        {name: 'groupOfProfiles', type: Ext.data.Types.AUTO },
     ],
 });
 

@@ -32,7 +32,9 @@
         var urlJSONQuestionAndAnswer = "${contextPath}/questionGet";
         var saveGroupProfile = "${contextPath}/saveGroupProfile";
         var editGroupProfile = "${contextPath}/editGroupProfile";
-        var imageEdit = "${contextPath}/resources/extjs/ext-theme-classic/images/cog_edit.png";
+        var saveProfile = "${contextPath}/saveProfile";
+        var editProfile = "${contextPath}/editProfile";
+
 
 
 
@@ -85,7 +87,7 @@
                         region: 'center',
                         layout:'fit',
                         title: 'Рабочая область',
-                        id:'globalWorkArea',
+                        id:'globalWorkArea'
                     },
 
                     {

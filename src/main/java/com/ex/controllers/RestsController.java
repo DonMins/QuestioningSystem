@@ -70,7 +70,15 @@ public class RestsController {
     @RequestMapping(value = "/editGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void editGroupProfile(GroupOfProfiles groupOfProfiles) {
         groupProfileDao.update(groupOfProfiles.getIdgroupOfProfiles(), groupOfProfiles.getTitle());
-
     }
 
+    @RequestMapping(value = "/saveProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void saveProfile(Profile profiles,  GroupOfProfiles groupOfProfiles ) {
+        profiles.setGroupOfProfiles(groupOfProfiles);
+        profileDao.save(profiles);
+    }
+    @RequestMapping(value = "/editProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void editProfile(Profile profiles) {
+        profileDao.update(profiles.getIdProfile(), profiles.getDescription(),profiles.getNameProfile());
+    }
 }
