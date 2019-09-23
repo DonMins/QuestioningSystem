@@ -21,16 +21,24 @@ Ext.onReady( function () {
             maxWidth: '100%',
             collapsible: true,
             maxHeight: '100%',
-            split: true,
+            split: false,
             closable: true,
-            autoScroll: true,
+            // autoScroll: true,
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'top',
+                items: [{
+                    xtype:'button',
+                    text: 'Создать анкету',
+                    handler: function () {
+
+                    }}],
+            }],
+
             items: [
                 {
                     xtype: 'gridpanel',
                     store: storeProfile,
-                    iconCls: 'icon-grid',
-                    columnLines: true,
-                    enableLocking: true,
                     columns: [
                         {
                             xtype: 'rownumberer'
@@ -39,7 +47,19 @@ Ext.onReady( function () {
                         {
                             dataIndex: 'nameProfile',
                             text: '',
-                            flex: 1
+                            flex: 1,
+
+                        },
+
+                        {
+                            flex: 1,
+
+                            align: 'right',
+                            dataIndex: 'nameProfile',
+                            renderer: function(value, meta, record) {
+                                var buttonText = 'Редактировать';
+                                return '<a href="#">'+buttonText+'</a>';
+                            }
                         }
                     ],
                     plugins:[
@@ -49,11 +69,16 @@ Ext.onReady( function () {
                                 '<div><b>Описание:</b>{description}</div>'
                             )
                         }
+
                     ],
                     listeners: {
-                        itemclick: function (s, r) {
-                             QuestionAndAnswer.ProfileLoad(r.raw.idgroupOfProfiles, r.raw.idProfile);
-                        }
+                       cellclick: function(grid, td, cellIndex, record, tr, rowIndex) {
+                            if (cellIndex===1 ||cellIndex===2 ){
+                                QuestionAndAnswer.ProfileLoad(record.data.idgroupOfProfiles, record.data.idProfile);
+                            }
+                            if (cellIndex === 3) {
+                                Ext.Msg.alert('Status', "Редактирвоание");
+                        }}
                     }
                 }],
         });
@@ -81,7 +106,7 @@ Ext.onReady( function () {
                     store.each(function (record) {
                         console.log(record.data.nameQuestion);
                         var size  = record.data.answerOptions.length;
-                        for (let i = 0; i <size; i++) { // нет необходимости в "начале"
+                        for (let i = 0; i <size; i++) {
                           console.log(record.data.answerOptions[i].nameAnswerOptions);
                           radioArray.push(record.data.answerOptions[i].nameAnswerOptions);
                         }

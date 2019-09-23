@@ -1,5 +1,6 @@
 Ext.onReady(function () {
     var win;
+    var winEdit;
     createGroupProfile = function () {
 
         if (!win || win.isVisible()===false) {
@@ -11,6 +12,8 @@ Ext.onReady(function () {
                 defaults: {
                     labelWidth: 100
                 },
+
+
                 items: [{
                     xtype: 'textfield',
                     name: 'nameGroupProfile',
@@ -22,7 +25,6 @@ Ext.onReady(function () {
                         xtype: 'button',
                         text: 'Сохранить',
                         height: 30,
-                        margin: '50 0 0 50',
                         renderTo: Ext.getBody(),
                         handler: function () {
                             var value = Ext.ComponentQuery.query('textfield[name=nameGroupProfile]')[0].getValue();
@@ -33,11 +35,12 @@ Ext.onReady(function () {
                                         dataType: 'json',
                                         method: 'POST',
                                         headers: {
-                                            "X-CSRF-TOKEN": va
+                                            "X-CSRF-TOKEN": token
                                         },
                                         params: {title: value},
                                         success: function (response, options) {
                                             Ext.Msg.alert('Status', 'Название было упешно сохранено');
+                                            GroupOfProfiles.groupOfProfileLoad();
                                             win.close();
                                         },
                                         failure: function (response, options) {
@@ -55,13 +58,11 @@ Ext.onReady(function () {
 
             });
         }
-
         if (win.isVisible()) {
             win.close();
         } else {
             win.show();
         }
-
     };
 
     GroupOfProfiles.groupOfProfileLoad = function () {
@@ -69,7 +70,7 @@ Ext.onReady(function () {
         var storeGroupOfProfile = Ext.create('Ext.data.Store',
             {
                 model: 'GroupOfProfiles.model',
-                autoLoad: false,
+                autoLoad: true,
                 proxy: {
                     type: 'ajax',
                     url: urlJSONGroupProfile,
@@ -90,6 +91,19 @@ Ext.onReady(function () {
             split: true,
             closable: true,
             autoScroll: true,
+            id:'west',
+
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'top',
+                items: [{
+                    xtype:'button',
+                    text: 'Создать группу',
+                    handler: function () {
+                        createGroupProfile();
+                    }}],
+              }],
+
             items: [
                 {
                     xtype: 'gridpanel',
@@ -102,25 +116,107 @@ Ext.onReady(function () {
                         {
                             dataIndex: 'title',
                             text: '',
-                            flex: 1
+                             flex: 1
+                        },
+                        {
+                            flex: 1,
+                            align: 'right',
+                            dataIndex: 'title',
+                            renderer: function(value, meta, record) {
+                                var buttonText = 'Редактировать';
+                                return '<a href="#">'+buttonText+'</a>';
+                            }
                         }
-                    ],
+
+                      ],
                     listeners: {
-                        itemclick: function (s, r) {
-                            Profiles.ListProfileLoad(r.raw.idgroupOfProfiles);
+                            cellclick: function(grid, td, cellIndex, record, tr, rowIndex) {
+                            if (cellIndex===0 || cellIndex===1){
+                                Profiles.ListProfileLoad(record.data.idgroupOfProfiles);
+                            }
+                            if (cellIndex === 2) {
+                                if (!winEdit || winEdit.isVisible()===false) {
+                                    winEdit = Ext.create('widget.window', {
+                                        title: 'Редактирование',
+                                        width: 450,
+                                        autoHeight: true,
+                                        bodyPadding: 10,
+                                        defaults: {
+                                            labelWidth: 100
+                                        },
+                                        items: [{
+                                            xtype: 'textfield',
+                                            name: 'editNameGroupProfile',
+                                            fieldLabel: 'Название группы:',
+                                            emptyText: 'Введите название',
+                                            allowBlank: false,
+                                        },
+                                            {
+                                                xtype: 'button',
+                                                text: 'Изменить',
+                                                height: 30,
+                                                renderTo: Ext.getBody(),
+                                                handler: function () {
+
+                                                    var value = Ext.ComponentQuery.query('textfield[name=editNameGroupProfile]')[0].getValue();
+                                                    console.log(value);
+                                                    if (value !== "") {
+                                                        Ext.Ajax.request({
+                                                                url: saveGroupProfile,
+                                                                dataType: 'json',
+                                                                method: 'POST',
+                                                                headers: {
+                                                                    "X-CSRF-TOKEN": token
+                                                                },
+                                                                params: {idgroupOfProfiles: record.data.idgroupOfProfiles, title: value},
+                                                                success: function (response, options) {
+                                                                    Ext.Msg.alert('Status', 'Название было упешно изменено');
+                                                                    GroupOfProfiles.groupOfProfileLoad();
+                                                                    winEdit.close();
+
+                                                                },
+                                                                failure: function (response, options) {
+                                                                    Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                                                                }
+                                                            }
+                                                        );
+
+                                                    } else {
+                                                        Ext.Msg.alert('Status', 'Заполните поле!');
+                                                    }
+
+                                                }
+                                            }
+                                        ],
+                                    });
+                                    Ext.ComponentQuery.query('textfield[name=editNameGroupProfile]')[0].setValue(record.data.title);
+                                }
+
+                                if (winEdit.isVisible()) {
+                                    winEdit.close();
+                                } else {
+                                    winEdit.show();
+                                }
+
+
+
+
+                            }
                         }
                     }
                 }],
-            renderTo: Ext.getBody()
+
         });
 
         renderToWorkArea(west);
-        storeGroupOfProfile.load({
-            scope: this,
-            callback: function (records, operation, success) {
-            }
-        });
+        // storeGroupOfProfile.load({
+        //     scope: this,
+        //     callback: function (records, operation, success) {
+        //     }
+        // });
     };
 
 });
+
+
 
