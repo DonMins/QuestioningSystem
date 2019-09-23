@@ -15,5 +15,7 @@ public interface ProfileDao extends JpaRepository<Profile, Integer> {
     @Query("select new com.ex.entity.Profile(idProfile.id, d.nameProfile) from Profile d where d.groupOfProfiles.idgroupOfProfiles = :id")
     List<Profile> findIdAndNameProfile(@Param("id")Integer id);
 
+
+
 }
 

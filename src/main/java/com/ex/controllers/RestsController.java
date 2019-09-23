@@ -11,7 +11,6 @@ import com.ex.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,10 +62,15 @@ public class RestsController {
         return ResponseEntity.ok().body(answerOptionsList);
     }
 
-
     @RequestMapping(value = "/saveGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void saveGroupProfile(GroupOfProfiles groupOfProfiles) {
         groupProfileDao.save(groupOfProfiles);
+    }
+
+    @RequestMapping(value = "/editGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void editGroupProfile(GroupOfProfiles groupOfProfiles) {
+        groupProfileDao.update(groupOfProfiles.getIdgroupOfProfiles(), groupOfProfiles.getTitle());
+
     }
 
 }

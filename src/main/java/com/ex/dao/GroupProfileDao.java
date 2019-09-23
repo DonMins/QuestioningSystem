@@ -3,6 +3,7 @@ package com.ex.dao;
 import com.ex.entity.GroupOfProfiles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,11 @@ public interface GroupProfileDao extends JpaRepository<GroupOfProfiles, Integer>
      List<GroupOfProfiles> findIdAndTitle();
 
     List<GroupOfProfiles> findAll();
+
+    @Query("update GroupOfProfiles t SET t.title=:title where t.idgroupOfProfiles=:id")
+    void update(@Param("id")Integer id, @Param("title")String title);
+
+
+
+
 }

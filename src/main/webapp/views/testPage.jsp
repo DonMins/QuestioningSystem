@@ -26,11 +26,13 @@
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
-        var va="${_csrf.token}";
+        var token="${_csrf.token}";
         var urlJSONGroupProfile = "${contextPath}/groupProfileGet";
         var urlJSONProfile = "${contextPath}/profileGet";
         var urlJSONQuestionAndAnswer = "${contextPath}/questionGet";
         var saveGroupProfile = "${contextPath}/saveGroupProfile";
+        var editGroupProfile = "${contextPath}/editGroupProfile";
+        var imageEdit = "${contextPath}/resources/extjs/ext-theme-classic/images/cog_edit.png";
 
 
 
@@ -42,7 +44,7 @@
                     expanded: true,
                     children: [
                                 {text: "Группа анкет", leaf: true,id: 'groupOfProfile'},
-                                {text: "Создать группу анкет",  leaf: true,id: 'childMenu_2'},
+                                // {text: "Создать группу анкет",  leaf: true,id: 'createGroupProfile'},
 
                     ]
                 }
@@ -103,10 +105,10 @@
                                         GroupOfProfiles.groupOfProfileLoad();
                                         break;
                                     }
-                                    case 'childMenu_2': {
-                                        createGroupProfile();
-                                        break;
-                                    }
+                                    // case 'createGroupProfile': {
+                                    //     createGroupProfile();
+                                    //     break;
+                                    // }
                                 }
                             }
 
