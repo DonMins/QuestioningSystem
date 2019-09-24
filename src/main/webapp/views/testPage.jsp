@@ -52,7 +52,7 @@
                 root: {
                     expanded: true,
                     children: [
-                                {text: "Группа анкет", leaf: true,id: 'groupOfProfile'},
+                                {text: "Конструктор анкет", leaf: true,id: 'groupOfProfile'},
                                 // {text: "Создать группу анкет",  leaf: true,id: 'createGroupProfile'},
 
                     ]

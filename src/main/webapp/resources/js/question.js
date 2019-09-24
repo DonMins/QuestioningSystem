@@ -21,7 +21,7 @@ Ext.onReady(function () {
                     {
                         xtype: 'textfield',
                         name: 'nameQuestion',
-                        fieldLabel: 'Название вопросы:',
+                        fieldLabel: 'Название вопроса:',
                         emptyText: 'Введите название',
                         allowBlank: false,
                         width:750
@@ -29,8 +29,20 @@ Ext.onReady(function () {
                     {
                         xtype: 'combobox',
                         name: 'type',
+                        width:750,
                         fieldLabel: 'Тип:',
-                        data: type,
+                        store: new Ext.data.SimpleStore({
+                            id:0,
+                            fields:
+                                [
+                                    'id',
+                                    'type'
+                                ],
+                            data:type
+                        }),
+                        valueField:'id',
+                        displayField:'type',
+                        queryMode:'local'
                     },
 
                     {
@@ -222,7 +234,7 @@ Ext.onReady(function () {
         });
 
         storeQuestion.load({params: {idgroupOfProfiles: groupOfProfiles.idgroupOfProfiles}});
-        renderToWorkArea(west);
+        renderToWorkArea(panel);
     };
 
 });
