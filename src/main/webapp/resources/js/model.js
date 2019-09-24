@@ -16,6 +16,16 @@ Ext.define('Profiles.model', {
     ],
 });
 
+Ext.define('Question.model', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'idQuestion', type: 'int' },
+        {name: 'type', type: 'string' },
+        {name: 'nameQuestion', type: 'string' },
+        {name: 'profile', type: Ext.data.Types.AUTO},
+    ],
+});
+
 Ext.define('QuestionAndAnswer.model', {
     extend: 'Ext.data.Model',
     fields: [

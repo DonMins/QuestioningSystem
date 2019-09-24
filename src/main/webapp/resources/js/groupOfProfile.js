@@ -13,7 +13,6 @@ Ext.onReady(function () {
                     labelWidth: 100
                 },
 
-
                 items: [{
                     xtype: 'textfield',
                     name: 'nameGroupProfile',
@@ -29,9 +28,8 @@ Ext.onReady(function () {
                             height: 30,
                             renderTo: Ext.getBody(),
                             handler: function () {
-                                var value = Ext.ComponentQuery.query('textfield[name=nameGroupProfile]')[0].getValue();
-                                if (value !== "") {
-                                    console.log(value);
+                                var title = Ext.ComponentQuery.query('textfield[name=nameGroupProfile]')[0].getValue();
+                                if (title !== "") {
                                     Ext.Ajax.request({
                                             url: saveGroupProfile,
                                             dataType: 'json',
@@ -39,7 +37,7 @@ Ext.onReady(function () {
                                             headers: {
                                                 "X-CSRF-TOKEN": token
                                             },
-                                            params: {title: value},
+                                            params: {title: title},
                                             success: function (response, options) {
                                                 Ext.Msg.alert('Status', 'Название было упешно сохранено');
                                                 GroupOfProfiles.groupOfProfileLoad();
@@ -121,11 +119,22 @@ Ext.onReady(function () {
                              flex: 1
                         },
                         {
-                            flex: 1,
-                            align: 'right',
+                            width:90,
+                            flex: 0,
+                            align: 'center',
                             dataIndex: 'title',
                             renderer: function(value, meta, record) {
                                 var buttonText = 'Редактировать';
+                                return '<a href="#">'+buttonText+'</a>';
+                            }
+                        },
+                        {
+                            width:70,
+                            flex: 0,
+                            align: 'center',
+                            dataIndex: 'title',
+                            renderer: function(value, meta, record) {
+                                var buttonText = 'Удалить';
                                 return '<a href="#">'+buttonText+'</a>';
                             }
                         }
@@ -162,9 +171,9 @@ Ext.onReady(function () {
                                                     renderTo: Ext.getBody(),
                                                     handler: function () {
 
-                                                        var value = Ext.ComponentQuery.query('textfield[name=editNameGroupProfile]')[0].getValue();
-                                                        console.log(value);
-                                                        if (value !== "") {
+                                                        var title = Ext.ComponentQuery.query('textfield[name=editNameGroupProfile]')[0].getValue();
+
+                                                        if (title !== "") {
                                                             Ext.Ajax.request({
                                                                     url: saveGroupProfile,
                                                                     dataType: 'json',
@@ -174,7 +183,7 @@ Ext.onReady(function () {
                                                                     },
                                                                     params: {
                                                                         idgroupOfProfiles: record.data.idgroupOfProfiles,
-                                                                        title: value
+                                                                        title: title
                                                                     },
                                                                     success: function (response, options) {
                                                                         Ext.Msg.alert('Status', 'Название было упешно изменено');
@@ -205,11 +214,35 @@ Ext.onReady(function () {
                                 } else {
                                     winEdit.show();
                                 }
-
-
-
+                            }
+                            if (cellIndex===3){
+                                Ext.Msg.confirm("Удалить","Вы действительно хотите удалить группу анкет и все связанные с ней анкеты? ",
+                                    function(btn){
+                                        if (btn === "yes") {
+                                            Ext.Ajax.request({
+                                                    url: deleteGroupProfile,
+                                                    dataType: 'json',
+                                                    method: 'POST',
+                                                    headers: {
+                                                        "X-CSRF-TOKEN": token
+                                                    },
+                                                    params: {
+                                                        idgroupOfProfiles: record.data.idgroupOfProfiles
+                                                    },
+                                                    success: function (response, options) {
+                                                        Ext.Msg.alert('Status', 'Группа была удалена');
+                                                        GroupOfProfiles.groupOfProfileLoad();
+                                                                                                         },
+                                                    failure: function (response, options) {
+                                                        Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                                                    }
+                                                }
+                                            );
+                                           }
+                                    });
 
                             }
+
                         }
                     }
                 }],

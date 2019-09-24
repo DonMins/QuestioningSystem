@@ -67,18 +67,35 @@ public class RestsController {
         groupProfileDao.save(groupOfProfiles);
     }
 
-    @RequestMapping(value = "/editGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void editGroupProfile(GroupOfProfiles groupOfProfiles) {
-        groupProfileDao.update(groupOfProfiles.getIdgroupOfProfiles(), groupOfProfiles.getTitle());
-    }
 
     @RequestMapping(value = "/saveProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void saveProfile(Profile profiles,  GroupOfProfiles groupOfProfiles ) {
         profiles.setGroupOfProfiles(groupOfProfiles);
         profileDao.save(profiles);
     }
-    @RequestMapping(value = "/editProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void editProfile(Profile profiles) {
-        profileDao.update(profiles.getIdProfile(), profiles.getDescription(),profiles.getNameProfile());
+
+    @RequestMapping(value = "/deleteGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteGroupProfile(GroupOfProfiles groupOfProfiles ) {
+        List<Profile> profilesList = profileDao.findByIdGroupProfiles(groupOfProfiles.getIdgroupOfProfiles());
+        if (profilesList.size()==0){
+            groupProfileDao.delete(groupOfProfiles);
+        }
+        else{
+            profileDao.deleteByIdGroupProfile(groupOfProfiles.getIdgroupOfProfiles());
+            groupProfileDao.delete(groupOfProfiles);
+        }
     }
+
+    @RequestMapping(value = "/deleteProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteProfile(Profile profiles ) {
+        List<Question> questionList = questionDao.findQuestionByIdProfile(profiles.getIdProfile());
+        if (questionList.size()==0){
+            profileDao.delete(profiles);
+        }
+        else{
+
+        }
+    }
+
+
 }

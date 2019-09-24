@@ -21,19 +21,26 @@
     <script type="text/javascript" src="${contextPath}/resources/js/model.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/groupOfProfile.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/profile.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/editForm.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/question.js"></script>
 
     <title>ТЕСТОВАЯ СТРАНИЦА</title>
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
         var token="${_csrf.token}";
+
         var urlJSONGroupProfile = "${contextPath}/groupProfileGet";
         var urlJSONProfile = "${contextPath}/profileGet";
         var urlJSONQuestionAndAnswer = "${contextPath}/questionGet";
+        var urlJSONQuestion = "${contextPath}/urlJSONQuestion";
+
         var saveGroupProfile = "${contextPath}/saveGroupProfile";
-        var editGroupProfile = "${contextPath}/editGroupProfile";
+        var deleteGroupProfile = "${contextPath}/deleteGroupProfile";
+        var deleteProfile = "${contextPath}/deleteProfile";
         var saveProfile = "${contextPath}/saveProfile";
         var editProfile = "${contextPath}/editProfile";
+
 
 
 
