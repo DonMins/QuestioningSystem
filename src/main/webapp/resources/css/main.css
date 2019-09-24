@@ -1,20 +1,19 @@
 .styleNameUser{
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Comic Sans MS',  serif;
     font-size: 12pt;
+    position: absolute;
+    right: 20px;
+    top: 8px;
+    color:#7d7dd0;
+
     margin: 5px 0 0 5px;
 }
 .button{
-    padding:5px 15px;
+    height: 25px;
     background:darkgrey;
-    border:2px;
-    cursor:pointer;
-    border-radius: 2px;
-    font-size: 15pt;
-    font-weight: bold;
     position: absolute;
-    bottom: 2px;
     right: 2px;
-    top: 2px;
+    top: 14px;
 }
 
 button:hover{

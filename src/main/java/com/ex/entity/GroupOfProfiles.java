@@ -8,14 +8,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "GroupOfProfiles")
 public class GroupOfProfiles  {
+    @Transient
+    private final int MAX_LENGTH = 65536;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idgroupOfProfiles" )
     private Integer idgroupOfProfiles;
 
     @Basic
-    @Column(name = "title" )
-
+    @Column(name = "title", length =MAX_LENGTH )
     private String title;
 
     @Transient

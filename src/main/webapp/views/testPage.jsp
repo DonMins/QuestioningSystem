@@ -23,6 +23,7 @@
     <script type="text/javascript" src="${contextPath}/resources/js/profile.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/editForm.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/question.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/answer.js"></script>
 
     <title>ТЕСТОВАЯ СТРАНИЦА</title>
     <meta id="_csrf_token" value="${_csrf.token}"/>
@@ -32,20 +33,20 @@
 
         var urlJSONGroupProfile = "${contextPath}/groupProfileGet";
         var urlJSONProfile = "${contextPath}/profileGet";
-        var urlJSONQuestionAndAnswer = "${contextPath}/questionGet";
-        var urlJSONQuestion = "${contextPath}/urlJSONQuestion";
+        var urlJSONQuestion = "${contextPath}/questionGet";
+        var urlJSONAnswer = "${contextPath}/answerGet";
 
         var saveGroupProfile = "${contextPath}/saveGroupProfile";
+        var saveProfile = "${contextPath}/saveProfile";
+        var saveQuestion = "${contextPath}/saveQuestion";
+        var saveAnswer = "${contextPath}/saveAnswer";
+
         var deleteGroupProfile = "${contextPath}/deleteGroupProfile";
         var deleteProfile = "${contextPath}/deleteProfile";
-        var saveProfile = "${contextPath}/saveProfile";
-        var editProfile = "${contextPath}/editProfile";
+        var deleteQuestion = "${contextPath}/deleteQuestion";
+        var deleteAnswer = "${contextPath}/deleteAnswer";
 
 
-
-
-
-        <%--var nameUser = "${pageContext.request.userPrincipal.name}";--%>
         Ext.onReady(function () {
 
             var menuStore = Ext.create('Ext.data.TreeStore', {
@@ -67,15 +68,20 @@
                         title: 'Анкетник',
                         region: 'north',
                         collapsible: true,
-
                         items: [
+                            {
+                                xtype: 'image',
+                                src: '${contextPath}/resources/css/logo.png',
+                                height: 50,
+                                style: 'margin-left: 10px',
+                            },
                             {
                                 xtype: 'text',
                                 cls: 'styleNameUser',
                                 collapsible: true,
-                                width: '100%',
+                                width: 200,
                                 height: 30,
-                                text: 'Вы вошли как : <c:out value="${pageContext.request.userPrincipal.name}"/>'
+                                text: 'Вы вошли как | <c:out value="${pageContext.request.userPrincipal.name}"/>'
                             },
                             {
                                 xtype:'button',
@@ -93,7 +99,6 @@
                         xtype: 'panel',
                         region: 'center',
                         layout:'fit',
-                        title: 'Рабочая область',
                         id:'globalWorkArea'
                     },
 

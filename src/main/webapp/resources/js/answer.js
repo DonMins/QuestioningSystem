@@ -1,15 +1,11 @@
 Ext.onReady(function () {
-    var winCreateQuestion;
-    createQuestion = function (data) {
-        var type = [
-            [1, 'Один вариант ответа'],
-            [2, 'Много вариантов ответа'],
-            [3, 'свободный']
-        ];
+    var winCreateAnswer;
+    var winEditAnswer;
+    createAnswer = function (data) {
 
-        if (!winCreateQuestion || winCreateQuestion.isVisible() === false) {
-            winCreateQuestion = Ext.create('widget.window', {
-                title: 'Добавление вопроса',
+        if (!winCreateAnswer || winCreateAnswer.isVisible() === false) {
+            winCreateAnswer = Ext.create('widget.window', {
+                title: 'Добавление варианта ответа к вопросу "' +data.nameQuestion +'"',
                 width: 800,
                 autoHeight: true,
                 bodyPadding: 10,
@@ -20,30 +16,11 @@ Ext.onReady(function () {
                 items: [
                     {
                         xtype: 'textfield',
-                        name: 'nameQuestion',
-                        fieldLabel: 'Название вопроса:',
-                        emptyText: 'Введите название',
+                        name: 'nameAnswerOptions',
+                        fieldLabel: 'Вариант ответа',
+                        emptyText: 'Введите ответ',
                         allowBlank: false,
                         width:750
-                    },
-                    {
-                        xtype: 'combobox',
-                        name: 'type',
-                        width:750,
-                        fieldLabel: 'Тип:',
-                        forceSelection: true,
-                        store: new Ext.data.SimpleStore({
-                            id:0,
-                            fields:
-                                [
-                                    'id',
-                                    'type'
-                                ],
-                            data:type
-                        }),
-                        valueField:'id',
-                        displayField:'type',
-                        queryMode:'local'
                     },
 
                     {
@@ -54,26 +31,24 @@ Ext.onReady(function () {
                             height: 30,
                             renderTo: Ext.getBody(),
                             handler: function () {
-                                debugger;
-                                var nameQuestion = Ext.ComponentQuery.query('textfield[name=nameQuestion]')[0].getValue();
-                                var type = Ext.ComponentQuery.query('combobox[name=type]')[0].getValue();
-                                if (nameQuestion !== "" && type!==null) {
+
+                                var nameAnswerOptions = Ext.ComponentQuery.query('textfield[name=nameAnswerOptions]')[0].getValue();
+                                console.log(data);
+                                if (nameAnswerOptions !== "") {
                                     Ext.Ajax.request({
-                                            url: saveQuestion,
+                                            url: saveAnswer,
                                             dataType: 'json',
                                             method: 'POST',
                                             headers: {
                                                 "X-CSRF-TOKEN": token
                                             },
                                             params: {
-                                                nameQuestion:nameQuestion,
-                                                type:type,
-                                                idProfile:data.idProfile
+                                                nameAnswerOptions:nameAnswerOptions,
+                                                idQuestion:data.idQuestion
                                             },
                                             success: function (response, options) {
-                                                Ext.Msg.alert('Status', 'Вопрос была упешно добавлен');
-                                                Question.ListQuestionLoad(data);
-                                                winCreateQuestion.close();
+                                               AnswerOption.ListAnswerOptionLoad(data);
+                                                winCreateAnswer.close();
                                             },
                                             failure: function (response, options) {
                                                 Ext.Msg.alert('Status', 'Что-то пошло не так!');
@@ -90,31 +65,29 @@ Ext.onReady(function () {
 
             });
         }
-        if (winCreateQuestion.isVisible()) {
-            winCreateQuestion.close();
+        if (winCreateAnswer.isVisible()) {
+            winCreateAnswer.close();
         } else {
-            winCreateQuestion.show();
+            winCreateAnswer.show();
         }
     };
 
-
-
-    Question.ListQuestionLoad = function (data) {
-        var storeQuestion = Ext.create('Ext.data.Store', {
-            model: 'Question.model',
+    AnswerOption.ListAnswerOptionLoad = function (data) {
+        var storeAnswer = Ext.create('Ext.data.Store', {
+            model: 'AnswerOption.model',
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                url: urlJSONQuestion,
+                url: urlJSONAnswer,
                 reader: {
                     type: 'json',
-                    root: 'Question'
+                    root: 'answeroptions'
                 }
             }
         });
 
         var panel = Ext.create('Ext.Panel', {
-            title: 'Список вопросов в анкете "'+ data.nameProfile +'"',
+            title: 'Варианты отведа на вопрос "'+ data.nameQuestion +'"',
             region: 'center',
             maxWidth: '100%',
             collapsible: true,
@@ -129,14 +102,14 @@ Ext.onReady(function () {
                     { xtype: 'button',
                         text: 'Назад',
                         handler: function () {
-                             Profiles.ListProfileLoad(data.groupOfProfiles);
+                            Question.ListQuestionLoad(data.profile);
                         },
                     },
                     {
                         xtype: 'button',
-                        text: 'Добавить вопрос',
+                        text: 'Добавить вариант ответа',
                         handler: function () {
-                            createQuestion(data);
+                            createAnswer(data);
                         },
                     }
                 ]
@@ -145,14 +118,14 @@ Ext.onReady(function () {
             items: [
                 {
                     xtype: 'gridpanel',
-                    store: storeQuestion,
+                    store: storeAnswer,
                     columns: [
                         {
                             xtype: 'rownumberer'
                         },
 
                         {
-                            dataIndex: 'nameQuestion',
+                            dataIndex: 'nameAnswerOptions',
                             text: '',
                             flex: 1,
 
@@ -181,21 +154,47 @@ Ext.onReady(function () {
 
                     listeners: {
                         cellclick: function (grid, td, cellIndex, record, tr, rowIndex) {
-                            if (cellIndex === 0 || cellIndex === 1) {
-                                AnswerOption.ListAnswerOptionLoad(record.data);
-                            }
+
                             if (cellIndex === 2) {
 
-                                // if (!winEditProfile || winEditProfile.isVisible() === false) {
-                                //     winEditProfile = Ext.create( "Profile.editor.window",
-                                //         {winType:'EDIT', rec:record, groupOfProfiles:groupOfProfiles} );
-                                // }
-                                //
-                                // if (winEditProfile.isVisible()) {
-                                //     winEditProfile.close();
-                                // } else {
-                                //     winEditProfile.show();
-                                // }
+                                if (! winEditAnswer || winEditAnswer.isVisible() === false) {
+                                    winEditAnswer = Ext.create( 'widget.window',{
+                                        title: 'Изменение варианта ответа на вопрос "' +data.nameQuestion +'"',
+                                        width: 800,
+                                        autoHeight: true,
+                                        bodyPadding: 10,
+                                        defaults: {
+                                        labelWidth: 100
+                                    },
+
+                                    items: [
+                                        {
+                                            xtype: 'textfield',
+                                            name: 'nameAnswerOptions',
+                                            fieldLabel: 'Вариант ответа',
+                                            emptyText: 'Введите ответ',
+                                            allowBlank: false,
+                                            width:750
+                                        },
+
+                                        {
+                                            buttonAlign: 'right',
+                                            buttons: [{
+                                                xtype: 'button',
+                                                text: 'Изменить',
+                                                height: 30,
+                                                renderTo: Ext.getBody(),
+                                                handler: function () {}
+                                            }]
+                                        }]
+                                    });
+                                }
+
+                                if (winEditAnswer.isVisible()) {
+                                    winEditAnswer.close();
+                                } else {
+                                    winEditAnswer.show();
+                                }
                             }
                             if(cellIndex ===3){
                                 // Ext.Msg.confirm("Удалить","Вы действительно хотите удалить анкету? ",
@@ -229,7 +228,7 @@ Ext.onReady(function () {
                 }]
         });
 
-        storeQuestion.load({params: {idProfile: data.idProfile}});
+        storeAnswer.load({params: {idQuestion: data.idQuestion}});
         renderToWorkArea(panel);
     };
 

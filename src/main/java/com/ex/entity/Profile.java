@@ -9,6 +9,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "profile")
 public class Profile {
+    @Transient
+    private final int MAX_LENGTH = 65536;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idProfile")
@@ -16,11 +19,11 @@ public class Profile {
 
     @Basic
     @NonNull
-    @Column(name = "nameProfile")
+    @Column(name = "nameProfile", length = MAX_LENGTH)
     private String nameProfile;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description" , length = MAX_LENGTH)
     private  String description ;
 
     @Transient

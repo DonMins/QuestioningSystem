@@ -8,6 +8,9 @@ import java.util.Objects;
 @Table(name = "question")
 
 public class Question {
+    @Transient
+    private final int MAX_LENGTH = 65536;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column( name = "idQuestion" )
@@ -18,7 +21,7 @@ public class Question {
     private String type;
 
     @Basic
-    @Column( name = "nameQuestion" )
+    @Column( name = "nameQuestion",length =MAX_LENGTH)
     private String nameQuestion;
 
     @OneToMany(mappedBy = "question",  fetch = FetchType.EAGER)

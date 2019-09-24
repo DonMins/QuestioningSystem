@@ -10,6 +10,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "answeroptions")
 public class AnswerOptions {
+    @Transient
+    private final int MAX_LENGTH = 65536;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idAnswerOptions")
@@ -17,7 +20,7 @@ public class AnswerOptions {
 
     @Basic
     @NonNull
-    @Column(name = "nameAnswerOptions")
+    @Column(name = "nameAnswerOptions", length = MAX_LENGTH)
     private String nameAnswerOptions;
 
     @Basic
