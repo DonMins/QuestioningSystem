@@ -1,9 +1,10 @@
 package com.ex.controllers;
 
+import com.ex.dao.AnswerOptionsDao;
 import com.ex.dao.GroupProfileDao;
 import com.ex.dao.ProfileDao;
+import com.ex.dao.QuestionDao;
 import com.ex.entity.GroupOfProfiles;
-import com.ex.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,13 @@ public class GroupProfileController {
     @Autowired
     private ProfileDao profileDao;
 
+    @Autowired
+    private QuestionDao questionDao;
+
+    @Autowired
+    private AnswerOptionsDao answerOptionsDao;
+
+
     @RequestMapping(value = "/groupProfileGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<GroupOfProfiles>> groupProfileGet() {
         List<GroupOfProfiles> groupOfProfilesList = groupProfileDao.findIdAndTitle();
@@ -33,13 +41,9 @@ public class GroupProfileController {
 
     @RequestMapping(value = "/deleteGroupProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteGroupProfile(GroupOfProfiles groupOfProfiles ) {
-        List<Profile> profilesList = profileDao.findByIdGroupProfiles(groupOfProfiles.getIdgroupOfProfiles());
-        if (profilesList.size()==0){
-            groupProfileDao.delete(groupOfProfiles);
-        }
-        else{
-            profileDao.deleteByIdGroupProfile(groupOfProfiles.getIdgroupOfProfiles());
-            groupProfileDao.delete(groupOfProfiles);
-        }
+        answerOptionsDao.deleteByIdGroupProfile(groupOfProfiles.getIdgroupOfProfiles());
+        questionDao.deleteByIdGroupProfile(groupOfProfiles.getIdgroupOfProfiles());
+        profileDao.deleteByIdGroupProfile(groupOfProfiles.getIdgroupOfProfiles());
+        groupProfileDao.delete(groupOfProfiles);
     }
 }

@@ -31,33 +31,7 @@ Ext.onReady(function () {
                             height: 30,
                             renderTo: Ext.getBody(),
                             handler: function () {
-
-                                var nameAnswerOptions = Ext.ComponentQuery.query('textfield[name=nameAnswerOptions]')[0].getValue();
-                                console.log(data);
-                                if (nameAnswerOptions !== "") {
-                                    Ext.Ajax.request({
-                                            url: saveAnswer,
-                                            dataType: 'json',
-                                            method: 'POST',
-                                            headers: {
-                                                "X-CSRF-TOKEN": token
-                                            },
-                                            params: {
-                                                nameAnswerOptions:nameAnswerOptions,
-                                                idQuestion:data.idQuestion
-                                            },
-                                            success: function (response, options) {
-                                               AnswerOption.ListAnswerOptionLoad(data);
-                                                winCreateAnswer.close();
-                                            },
-                                            failure: function (response, options) {
-                                                Ext.Msg.alert('Status', 'Что-то пошло не так!');
-                                            }
-                                        }
-                                    );
-                                } else {
-                                    Ext.Msg.alert('Status', 'Заполните поле!');
-                                }
+                                saveAndEditAnswerOption('nameAnswerOptions', data)
 
                             }
                         }]
@@ -170,7 +144,7 @@ Ext.onReady(function () {
                                     items: [
                                         {
                                             xtype: 'textfield',
-                                            name: 'nameAnswerOptions',
+                                            name: 'editNameAnswerOptions',
                                             fieldLabel: 'Вариант ответа',
                                             emptyText: 'Введите ответ',
                                             allowBlank: false,
@@ -184,10 +158,13 @@ Ext.onReady(function () {
                                                 text: 'Изменить',
                                                 height: 30,
                                                 renderTo: Ext.getBody(),
-                                                handler: function () {}
+                                                handler: function () {
+                                                    saveAndEditAnswerOption('editNameAnswerOptions', data,record.data.idAnswerOptions)
+                                                }
                                             }]
                                         }]
                                     });
+                                    Ext.ComponentQuery.query('textfield[name=editNameAnswerOptions]')[0].setValue(record.data.nameAnswerOptions);
                                 }
 
                                 if (winEditAnswer.isVisible()) {
@@ -197,39 +174,72 @@ Ext.onReady(function () {
                                 }
                             }
                             if(cellIndex ===3){
-                                // Ext.Msg.confirm("Удалить","Вы действительно хотите удалить анкету? ",
-                                //     function(btn){
-                                //         if (btn === "yes") {
-                                //             Ext.Ajax.request({
-                                //                     url: deleteProfile,
-                                //                     dataType: 'json',
-                                //                     method: 'POST',
-                                //                     headers: {
-                                //                         "X-CSRF-TOKEN": token
-                                //                     },
-                                //                     params: {
-                                //                         idProfile: record.data.idProfile
-                                //                     },
-                                //                     success: function (response, options) {
-                                //                         Ext.Msg.alert('Status', 'Анкета была удалена');
-                                //                         Profiles.ListProfileLoad(groupOfProfiles);
-                                //                     },
-                                //                     failure: function (response, options) {
-                                //                         Ext.Msg.alert('Status', 'Что-то пошло не так!');
-                                //                     }
-                                //                 }
-                                //             );
-                                //         }
-                                //     });
+                                Ext.Msg.confirm("Удалить","Вы действительно хотите удалить вариант ответа?  ",
+                                    function(btn){
+                                        if (btn === "yes") {
+                                            console.log(record);
+                                            Ext.Ajax.request({
+                                                    url: deleteAnswer,
+                                                    dataType: 'json',
+                                                    method: 'POST',
+                                                    headers: {
+                                                        "X-CSRF-TOKEN": token
+                                                    },
+                                                    params: {
+                                                        idAnswerOptions: record.data.idAnswerOptions
+                                                    },
+                                                    success: function (response, options) {
+                                                        AnswerOption.ListAnswerOptionLoad(data);
+                                                    },
+                                                    failure: function (response, options) {
+                                                        Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    });
 
                             }
                         }
                     }
                 }]
         });
-
         storeAnswer.load({params: {idQuestion: data.idQuestion}});
         renderToWorkArea(panel);
     };
 
+    function saveAndEditAnswerOption(name,data,dopParam) {
+        var nameAnswerOptions = Ext.ComponentQuery.query('textfield[name='+name+']')[0].getValue();
+        if (nameAnswerOptions !== "") {
+            Ext.Ajax.request({
+                    url: saveAnswer,
+                    dataType: 'json',
+                    method: 'POST',
+                    headers: {
+                        "X-CSRF-TOKEN": token
+                    },
+                    params: {
+                        idAnswerOptions:dopParam,
+                        nameAnswerOptions:nameAnswerOptions,
+                        idQuestion:data.idQuestion
+
+                    },
+                    success: function (response, options) {
+                        AnswerOption.ListAnswerOptionLoad(data);
+                        if (dopParam!=null){
+                            winEditAnswer.close();
+                        }
+                        winCreateAnswer.close();
+                    },
+                    failure: function (response, options) {
+                        Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                    }
+                }
+            );
+        } else {
+            Ext.Msg.alert('Status', 'Заполните поле!');
+        }
+
+    }
 });
+

@@ -24,30 +24,13 @@
     <script type="text/javascript" src="${contextPath}/resources/js/editForm.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/question.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/answer.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/properties.js.jsp"></script>
 
     <title>ТЕСТОВАЯ СТРАНИЦА</title>
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
-        var token="${_csrf.token}";
-
-        var urlJSONGroupProfile = "${contextPath}/groupProfileGet";
-        var urlJSONProfile = "${contextPath}/profileGet";
-        var urlJSONQuestion = "${contextPath}/questionGet";
-        var urlJSONAnswer = "${contextPath}/answerGet";
-
-        var saveGroupProfile = "${contextPath}/saveGroupProfile";
-        var saveProfile = "${contextPath}/saveProfile";
-        var saveQuestion = "${contextPath}/saveQuestion";
-        var saveAnswer = "${contextPath}/saveAnswer";
-
-        var deleteGroupProfile = "${contextPath}/deleteGroupProfile";
-        var deleteProfile = "${contextPath}/deleteProfile";
-        var deleteQuestion = "${contextPath}/deleteQuestion";
-        var deleteAnswer = "${contextPath}/deleteAnswer";
-
-
-        Ext.onReady(function () {
+     Ext.onReady(function () {
 
             var menuStore = Ext.create('Ext.data.TreeStore', {
                 root: {

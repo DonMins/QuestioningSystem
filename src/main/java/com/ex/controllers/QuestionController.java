@@ -1,5 +1,6 @@
 package com.ex.controllers;
 
+import com.ex.dao.AnswerOptionsDao;
 import com.ex.dao.QuestionDao;
 import com.ex.entity.Profile;
 import com.ex.entity.Question;
@@ -17,6 +18,9 @@ public class QuestionController {
     @Autowired
     private QuestionDao questionDao;
 
+    @Autowired
+    private AnswerOptionsDao answerOptionsDao;
+
     @RequestMapping(value = "/questionGet", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Question>> questionGet(Profile profile) {
         System.out.println(profile);
@@ -30,4 +34,11 @@ public class QuestionController {
         questionDao.save(question);
     }
 
+    @RequestMapping(value = "/deleteQuestion", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public void deleteQuestion(Question question) {
+        answerOptionsDao.deleteByIdQuestion(question.getIdQuestion());
+        questionDao.delete(question);
+    }
+
 }
+

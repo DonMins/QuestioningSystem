@@ -1,17 +1,13 @@
 package com.ex.controllers;
 
 import com.ex.dao.AnswerOptionsDao;
-import com.ex.dao.ProfileDao;
 import com.ex.dao.QuestionDao;
 import com.ex.entity.AnswerOptions;
-import com.ex.entity.GroupOfProfiles;
-import com.ex.entity.Profile;
 import com.ex.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,5 +34,9 @@ public class AnswerController {
             answerOptionsDao.save(answerOptions);
         }
 
+       @RequestMapping(value = "/deleteAnswer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+       public void deleteAnswer (AnswerOptions answerOptions) {
+        answerOptionsDao.delete(answerOptions);
+    }
 
     }

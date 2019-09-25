@@ -1,10 +1,10 @@
 package com.ex.controllers;
 
+import com.ex.dao.AnswerOptionsDao;
 import com.ex.dao.ProfileDao;
 import com.ex.dao.QuestionDao;
 import com.ex.entity.GroupOfProfiles;
 import com.ex.entity.Profile;
-import com.ex.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,9 @@ public class ProfileController {
     @Autowired
     private QuestionDao questionDao;
 
+    @Autowired
+    private AnswerOptionsDao answerOptionsDao;
+
 
     @RequestMapping(value = {"/profileGet"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Profile>> profileGet(GroupOfProfiles groupProfile) {
@@ -36,12 +39,9 @@ public class ProfileController {
 
     @RequestMapping(value = "/deleteProfile", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteProfile(Profile profiles ) {
-        List<Question> questionList = questionDao.findQuestionByIdProfile(profiles.getIdProfile());
-        if (questionList.size()==0){
-            profileDao.delete(profiles);
-        }
-        else{
+        answerOptionsDao.deleteByListIdQuestion(profiles.getIdProfile());
+        questionDao.deleteByIdProfile(profiles.getIdProfile());
+        profileDao.delete(profiles);
 
-        }
     }
 }

@@ -34,7 +34,7 @@ public class RegistrationController {
 
     @RequestMapping(value = { "/","/testing"}, method = RequestMethod.GET)
         public String test() {
-        return "testPage";
+        return "welcome";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)

@@ -1,11 +1,12 @@
 Ext.onReady(function () {
     var winCreateQuestion;
+    var winEditQuestion;
+    var typeStory = [
+        ['Один вариант ответа'],
+        ['Много вариантов ответа'],
+        ['свободный']
+    ];
     createQuestion = function (data) {
-        var type = [
-            [1, 'Один вариант ответа'],
-            [2, 'Много вариантов ответа'],
-            [3, 'свободный']
-        ];
 
         if (!winCreateQuestion || winCreateQuestion.isVisible() === false) {
             winCreateQuestion = Ext.create('widget.window', {
@@ -32,16 +33,16 @@ Ext.onReady(function () {
                         width:750,
                         fieldLabel: 'Тип:',
                         forceSelection: true,
+                        emptyText: 'Выберите тип вопроса',
                         store: new Ext.data.SimpleStore({
-                            id:0,
+
                             fields:
                                 [
-                                    'id',
-                                    'type'
+                                 'type'
                                 ],
-                            data:type
+                            data:typeStory
                         }),
-                        valueField:'id',
+                        valueField:'type',
                         displayField:'type',
                         queryMode:'local'
                     },
@@ -54,36 +55,7 @@ Ext.onReady(function () {
                             height: 30,
                             renderTo: Ext.getBody(),
                             handler: function () {
-                                debugger;
-                                var nameQuestion = Ext.ComponentQuery.query('textfield[name=nameQuestion]')[0].getValue();
-                                var type = Ext.ComponentQuery.query('combobox[name=type]')[0].getValue();
-                                if (nameQuestion !== "" && type!==null) {
-                                    Ext.Ajax.request({
-                                            url: saveQuestion,
-                                            dataType: 'json',
-                                            method: 'POST',
-                                            headers: {
-                                                "X-CSRF-TOKEN": token
-                                            },
-                                            params: {
-                                                nameQuestion:nameQuestion,
-                                                type:type,
-                                                idProfile:data.idProfile
-                                            },
-                                            success: function (response, options) {
-                                                Ext.Msg.alert('Status', 'Вопрос была упешно добавлен');
-                                                Question.ListQuestionLoad(data);
-                                                winCreateQuestion.close();
-                                            },
-                                            failure: function (response, options) {
-                                                Ext.Msg.alert('Status', 'Что-то пошло не так!');
-                                            }
-                                        }
-                                    );
-                                } else {
-                                    Ext.Msg.alert('Status', 'Заполните поле!');
-                                }
-
+                                saveAndEditQuestion('nameQuestion','type',data)
                             }
                         }]
                     }],
@@ -186,42 +158,93 @@ Ext.onReady(function () {
                             }
                             if (cellIndex === 2) {
 
-                                // if (!winEditProfile || winEditProfile.isVisible() === false) {
-                                //     winEditProfile = Ext.create( "Profile.editor.window",
-                                //         {winType:'EDIT', rec:record, groupOfProfiles:groupOfProfiles} );
-                                // }
-                                //
-                                // if (winEditProfile.isVisible()) {
-                                //     winEditProfile.close();
-                                // } else {
-                                //     winEditProfile.show();
-                                // }
+                                if (!winEditQuestion || winEditQuestion.isVisible() === false) {
+                                    winEditQuestion = Ext.create( 'widget.window',{
+                                        title: 'Изменение вопроса "' +record.data.nameQuestion +'"',
+                                        width: 800,
+                                        autoHeight: true,
+                                        bodyPadding: 10,
+                                        defaults: {
+                                            labelWidth: 100
+                                        },
+
+                                        items: [
+                                            {
+                                                xtype: 'textfield',
+                                                name: 'editNameQuestion',
+                                                fieldLabel: 'Название вопроса',
+                                                emptyText: 'Введите название',
+                                                allowBlank: false,
+                                                width:750
+                                            },
+                                            {
+                                                xtype: 'combobox',
+                                                name: 'editType',
+                                                width:750,
+                                                fieldLabel: 'Тип:',
+                                                emptyText: 'Выберите тип вопроса',
+                                                forceSelection: true,
+                                                store: new Ext.data.SimpleStore({
+
+                                                    fields:
+                                                        [
+
+                                                            'type'
+                                                        ],
+                                                    data:typeStory
+                                                }),
+                                                valueField:'type',
+                                                displayField:'type',
+                                                queryMode:'local'
+                                            },
+
+                                            {
+                                                buttonAlign: 'right',
+                                                buttons: [{
+                                                    xtype: 'button',
+                                                    text: 'Изменить',
+                                                    height: 30,
+                                                    renderTo: Ext.getBody(),
+                                                    handler: function () {
+                                                        saveAndEditQuestion('editNameQuestion','editType', data,record.data.idQuestion)
+                                                    }
+                                                }]
+                                            }]
+                                    });
+                                    Ext.ComponentQuery.query('textfield[name=editNameQuestion]')[0].setValue(record.data.nameQuestion);
+                                    Ext.ComponentQuery.query('textfield[name=editType]')[0].setValue(record.data.type);
+                                }
+
+                                if (winEditQuestion.isVisible()) {
+                                    winEditQuestion.close();
+                                } else {
+                                    winEditQuestion.show();
+                                }
                             }
                             if(cellIndex ===3){
-                                // Ext.Msg.confirm("Удалить","Вы действительно хотите удалить анкету? ",
-                                //     function(btn){
-                                //         if (btn === "yes") {
-                                //             Ext.Ajax.request({
-                                //                     url: deleteProfile,
-                                //                     dataType: 'json',
-                                //                     method: 'POST',
-                                //                     headers: {
-                                //                         "X-CSRF-TOKEN": token
-                                //                     },
-                                //                     params: {
-                                //                         idProfile: record.data.idProfile
-                                //                     },
-                                //                     success: function (response, options) {
-                                //                         Ext.Msg.alert('Status', 'Анкета была удалена');
-                                //                         Profiles.ListProfileLoad(groupOfProfiles);
-                                //                     },
-                                //                     failure: function (response, options) {
-                                //                         Ext.Msg.alert('Status', 'Что-то пошло не так!');
-                                //                     }
-                                //                 }
-                                //             );
-                                //         }
-                                //     });
+                                Ext.Msg.confirm("Удалить","Вы действительно хотите удалить вопрос? ",
+                                    function(btn){
+                                        if (btn === "yes") {
+                                            Ext.Ajax.request({
+                                                    url: deleteQuestion,
+                                                    dataType: 'json',
+                                                    method: 'POST',
+                                                    headers: {
+                                                        "X-CSRF-TOKEN": token
+                                                    },
+                                                    params: {
+                                                        idQuestion: record.data.idQuestion
+                                                    },
+                                                    success: function (response, options) {
+                                                       Question.ListQuestionLoad(data);
+                                                    },
+                                                    failure: function (response, options) {
+                                                        Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    });
 
                             }
                         }
@@ -232,5 +255,41 @@ Ext.onReady(function () {
         storeQuestion.load({params: {idProfile: data.idProfile}});
         renderToWorkArea(panel);
     };
+
+    function saveAndEditQuestion(name, typ, data, dopParam) {
+        var nameQuestion = Ext.ComponentQuery.query('textfield[name='+name+']')[0].getValue();
+        var type = Ext.ComponentQuery.query('combobox[name='+typ+']')[0].getValue();
+
+        if (nameQuestion !== "" && type!==null) {
+            Ext.Ajax.request({
+                    url: saveQuestion,
+                    dataType: 'json',
+                    method: 'POST',
+                    headers: {
+                        "X-CSRF-TOKEN": token
+                    },
+                    params: {
+                        idQuestion: dopParam,
+                        nameQuestion:nameQuestion,
+                        type:type,
+                        idProfile:data.idProfile
+                    },
+                    success: function (response, options) {
+                        Question.ListQuestionLoad(data);
+                        if(dopParam!=null){
+                            winEditQuestion.close();
+                        }
+                        winCreateQuestion.close();
+                    },
+                    failure: function (response, options) {
+                        Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                    }
+                }
+            );
+        } else {
+            Ext.Msg.alert('Status', 'Заполните поле!');
+        }
+
+    }
 
 });
