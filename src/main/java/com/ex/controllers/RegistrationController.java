@@ -27,13 +27,8 @@ public class RegistrationController {
     private UserService userService;
 
 
-    @RequestMapping(value = { "/GroupOfProfile"}, method = RequestMethod.GET)
+    @RequestMapping(value = {  "/", "/GroupOfProfile"}, method = RequestMethod.GET)
     public String GroupOfProfile() {
-        return "mainPage";
-    }
-
-    @RequestMapping(value = { "/","/testing"}, method = RequestMethod.GET)
-        public String test() {
         return "welcome";
     }
 
@@ -65,6 +60,6 @@ public class RegistrationController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
 
-        return "redirect:/mainPage";
+        return "redirect:/welcome";
     }
 }

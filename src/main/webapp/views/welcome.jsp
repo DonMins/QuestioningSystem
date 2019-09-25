@@ -26,7 +26,7 @@
     <script type="text/javascript" src="${contextPath}/resources/js/answer.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/properties.js.jsp"></script>
 
-    <title>ТЕСТОВАЯ СТРАНИЦА</title>
+    <title>Главная страница</title>
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
@@ -37,7 +37,7 @@
                     expanded: true,
                     children: [
                                 {text: "Конструктор анкет", leaf: true,id: 'groupOfProfile'},
-                                // {text: "Создать группу анкет",  leaf: true,id: 'createGroupProfile'},
+                               // {text: "Создать группу анкет",  leaf: true,id: 'createGroupProfile'},
 
                     ]
                 }
