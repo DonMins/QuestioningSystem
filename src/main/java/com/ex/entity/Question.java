@@ -1,5 +1,7 @@
 package com.ex.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +30,7 @@ public class Question {
     private List<AnswerOptions> answerOptions;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn()
     private Profile profile;
 

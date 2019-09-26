@@ -16,6 +16,9 @@ public interface QuestionDao  extends JpaRepository<Question, Integer> {
     @Query("select u.idQuestion from Question u where u.profile.idProfile = :id")
     List<Integer> findIdQuestionByIdProfile(@Param("id")Integer id);
 
+    @Query("select u.profile.idProfile from Question u where u.idQuestion = :id")
+    Integer findIdProfileByIdQuestion(@Param("id")Integer id);
+
     @Modifying
     @Transactional
     @Query(value = "delete from Question  where PROFILE_IDPROFILE =:id", nativeQuery = true)

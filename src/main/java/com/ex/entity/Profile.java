@@ -26,8 +26,7 @@ public class Profile {
     @Column(name = "description" , length = MAX_LENGTH)
     private  String description ;
 
-    @Transient
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile",  fetch = FetchType.EAGER)
     private List<Question> questionList;
 
     @ManyToOne
@@ -36,9 +35,11 @@ public class Profile {
 
     public Profile(){}
 
-    public Profile(Integer id, String nameProfile){
+    public Profile(Integer id, String nameProfile, String description,GroupOfProfiles groupOfProfiles){
         this.idProfile = id;
         this.nameProfile = nameProfile;
+        this.description = description;
+        this.groupOfProfiles = groupOfProfiles;
     }
 
     public GroupOfProfiles getGroupOfProfiles() {

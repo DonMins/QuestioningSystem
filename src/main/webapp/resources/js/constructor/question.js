@@ -4,7 +4,7 @@ Ext.onReady(function () {
     var typeStory = [
         ['Один вариант ответа'],
         ['Много вариантов ответа'],
-        ['свободный']
+        ['cвободный']
     ];
     createQuestion = function (data) {
 
@@ -69,21 +69,8 @@ Ext.onReady(function () {
         }
     };
 
-
-
     Question.ListQuestionLoad = function (data) {
-        var storeQuestion = Ext.create('Ext.data.Store', {
-            model: 'Question.model',
-            autoLoad: false,
-            proxy: {
-                type: 'ajax',
-                url: urlJSONQuestion,
-                reader: {
-                    type: 'json',
-                    root: 'Question'
-                }
-            }
-        });
+        var storeQuestion = Ext.create('storeQuestion');
 
         var panel = Ext.create('Ext.Panel', {
             title: 'Список вопросов в анкете "'+ data.nameProfile +'"',
@@ -151,12 +138,22 @@ Ext.onReady(function () {
 
                     ],
 
+                    plugins: [
+                        {
+                            ptype: 'rowexpander',
+                            rowBodyTpl: new Ext.XTemplate(
+                                '<div><b>Тип вопроса: </b>{type}</div>'
+                            )
+                        }
+
+                    ],
+
                     listeners: {
                         cellclick: function (grid, td, cellIndex, record, tr, rowIndex) {
-                            if (cellIndex === 0 || cellIndex === 1) {
+                            if (cellIndex === 1 || cellIndex === 2) {
                                 AnswerOption.ListAnswerOptionLoad(record.data);
                             }
-                            if (cellIndex === 2) {
+                            if (cellIndex === 3) {
 
                                 if (!winEditQuestion || winEditQuestion.isVisible() === false) {
                                     winEditQuestion = Ext.create( 'widget.window',{

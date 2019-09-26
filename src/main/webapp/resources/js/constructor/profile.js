@@ -82,18 +82,7 @@ Ext.onReady(function () {
     };
 
     Profiles.ListProfileLoad = function (groupOfProfiles) {
-        var storeProfile = Ext.create('Ext.data.Store', {
-            model: 'Profiles.model',
-            autoLoad: false,
-            proxy: {
-                type: 'ajax',
-                url: urlJSONProfile,
-                reader: {
-                    type: 'json',
-                    root: 'Profile'
-                }
-            }
-        });
+        var storeProfile = Ext.create('storeProfile');
 
         var west = Ext.create('Ext.Panel', {
             title: 'Список анкет в группе: "' + groupOfProfiles.title + '"',
@@ -172,6 +161,8 @@ Ext.onReady(function () {
                     listeners: {
                         cellclick: function (grid, td, cellIndex, record, tr, rowIndex) {
                             if (cellIndex === 1 || cellIndex === 2) {
+
+
                                 Question.ListQuestionLoad(record.data);
                             }
                             if (cellIndex === 3) {

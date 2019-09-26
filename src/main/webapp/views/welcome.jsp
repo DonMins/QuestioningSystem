@@ -19,12 +19,14 @@
     <link href="${contextPath}/resources/css/main.css" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="${contextPath}/resources/js/model.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/groupOfProfile.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/profile.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/editForm.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/question.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/answer.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/constructor/groupOfProfile.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/constructor/profile.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/constructor/editForm.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/constructor/question.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/constructor/answer.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/passSurvey/loadQuestionary.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/properties.js.jsp"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/stores.js"></script>
 
 
     <meta id="_csrf_token" value="${_csrf.token}"/>
@@ -37,7 +39,7 @@
                     expanded: true,
                     children: [
                                 {text: "Конструктор анкет", leaf: true,id: 'groupOfProfile'},
-                               // {text: "Создать группу анкет",  leaf: true,id: 'createGroupProfile'},
+                                {text: "Пройти анкетирование",  leaf: true,id: 'passSurvey'},
 
                     ]
                 }
@@ -102,10 +104,10 @@
                                         GroupOfProfiles.groupOfProfileLoad();
                                         break;
                                     }
-                                    // case 'createGroupProfile': {
-                                    //     createGroupProfile();
-                                    //     break;
-                                    // }
+                                    case 'passSurvey': {
+                                        GroupOfProfiles.passSurveyGroupProfileLoad();
+                                        break;
+                                    }
                                 }
                             }
 

@@ -13,6 +13,7 @@ Ext.define('Profiles.model', {
         {name: 'nameProfile', type: 'string' },
         {name: 'description', type: 'string' },
         {name: 'groupOfProfiles', type: Ext.data.Types.AUTO },
+        {name: 'questionList', type: Ext.data.Types.AUTO },
     ],
 });
 
@@ -22,7 +23,8 @@ Ext.define('Question.model', {
         {name: 'idQuestion', type: 'int' },
         {name: 'type', type: 'string' },
         {name: 'nameQuestion', type: 'string' },
-        {name: 'profile', type: Ext.data.Types.AUTO},
+        // {name: 'profile', type: Ext.data.Types.AUTO},
+        {name: 'answerOptions', type: Ext.data.Types.AUTO},
     ],
 });
 

@@ -66,21 +66,7 @@ Ext.onReady(function () {
     };
 
     GroupOfProfiles.groupOfProfileLoad = function () {
-
-        var storeGroupOfProfile = Ext.create('Ext.data.Store',
-            {
-                model: 'GroupOfProfiles.model',
-                autoLoad: true,
-                proxy: {
-                    type: 'ajax',
-                    url: urlJSONGroupProfile,
-                    reader: {
-                        type: 'json',
-                        root: 'GroupOfProfiles'
-                    }
-                }
-            }
-        );
+        var storeGroupOfProfile = Ext.create('storeGroupOfProfile');
 
         var west = Ext.create('Ext.Panel', {
             title: 'Список групп анкет',
@@ -92,7 +78,6 @@ Ext.onReady(function () {
             closable: true,
             autoScroll: true,
             id:'west',
-
             dockedItems: [{
                 xtype: 'toolbar',
                 dock: 'top',

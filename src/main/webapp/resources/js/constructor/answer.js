@@ -47,19 +47,7 @@ Ext.onReady(function () {
     };
 
     AnswerOption.ListAnswerOptionLoad = function (data) {
-        var storeAnswer = Ext.create('Ext.data.Store', {
-            model: 'AnswerOption.model',
-            autoLoad: false,
-            proxy: {
-                type: 'ajax',
-                url: urlJSONAnswer,
-                reader: {
-                    type: 'json',
-                    root: 'answeroptions'
-                }
-            }
-        });
-
+       var storeAnswer = Ext.create('storeAnswer');
         var panel = Ext.create('Ext.Panel', {
             title: 'Варианты отведа на вопрос "'+ data.nameQuestion +'"',
             region: 'center',
@@ -76,7 +64,26 @@ Ext.onReady(function () {
                     { xtype: 'button',
                         text: 'Назад',
                         handler: function () {
-                            Question.ListQuestionLoad(data.profile);
+
+                            Ext.Ajax.request({
+                                url: getProfleByQuestion,
+                                method: 'POST',
+                                dataType: 'json',
+                                params: {idQuestion:data.idQuestion},
+                                headers: {
+                                    "X-CSRF-TOKEN":token
+                                },
+
+                                success: function (response, options) {
+                                    Question.ListQuestionLoad(JSON.parse(response.responseText));
+
+                                    },
+                                failure: function (response, options) {
+                                    alert("Ошибка: " + response.statusText);
+                                }
+
+                            });
+
                         },
                     },
                     {

@@ -5,9 +5,11 @@ import com.ex.dao.ProfileDao;
 import com.ex.dao.QuestionDao;
 import com.ex.entity.GroupOfProfiles;
 import com.ex.entity.Profile;
+import com.ex.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +44,15 @@ public class ProfileController {
         answerOptionsDao.deleteByListIdQuestion(profiles.getIdProfile());
         questionDao.deleteByIdProfile(profiles.getIdProfile());
         profileDao.delete(profiles);
-
     }
+
+    @PostMapping(value = "/getProfleByQuestion",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Profile> getProfleByQuestion(Question question) {
+        Integer idProfile = profileDao.findIdProfileByIdQuestion(question.getIdQuestion());
+        Profile profile  = profileDao.findProfileByIdProfile(idProfile);
+        System.out.println(profile);
+        return ResponseEntity.ok().body(profile);
+    }
+
+
 }
