@@ -21,7 +21,6 @@ public class AnswerController {
         @Autowired
         private QuestionDao questionDao;
 
-
         @RequestMapping(value = {"/answerGet"}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
         public ResponseEntity<List<AnswerOptions>> answerGet(Question question) {
             List<AnswerOptions> answerOptions = answerOptionsDao.findAnswerByIdQuestion(question.getIdQuestion());

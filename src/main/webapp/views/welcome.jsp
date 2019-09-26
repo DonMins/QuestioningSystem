@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>title</title>
+    <title>Главная страница</title>
     <%--    <script src="http://localhost:8080/extjs/ext-all.js" type="text/javascript"></script>--%>
     <%--    <link href="http://localhost:8080/extjs/resources/css/ext-all.css" rel="stylesheet" type="text/css">--%>
 
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="${contextPath}/resources/js/answer.js"></script>
     <script type="text/javascript" src="${contextPath}/resources/js/properties.js.jsp"></script>
 
-    <title>Главная страница</title>
+
     <meta id="_csrf_token" value="${_csrf.token}"/>
 
     <script>
