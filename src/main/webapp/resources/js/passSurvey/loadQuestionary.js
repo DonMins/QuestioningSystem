@@ -80,11 +80,14 @@ Ext.onReady(function () {
                     listeners: {
                         cellclick: function (grid, td, cellIndex, record, tr, rowIndex) {
                             if (cellIndex === 2) {
-                                var storeQuestion = Ext.create('storeQuestion');
-                                console.log(record.data);
-                                var panel = Ext.create('panel',
-                                    {record: record});
+                                var countQuestion = record.data.questionList.length;
+                                console.log(countQuestion);
 
+                                var panel = Ext.create('panel',
+                                    {record: record , countQuestion: countQuestion});
+                                for(let i = 0;i<countQuestion;++i) {
+                                    panel.addRow(record.data.questionList[i].nameQuestion);
+                                }
 
                                 renderToWorkArea(panel);
                             }
@@ -109,11 +112,12 @@ Ext.onReady(function () {
                 maxHeight: '100%',
                 split: false,
                 closable: true,
-
+                id:'panelProfile',
 
                 bodyStyle: {
                     'background': '#e0e9f6; !important'
                 },
+
                 items: [
                     {
                         xtype: 'form',
@@ -123,6 +127,7 @@ Ext.onReady(function () {
                             'background': '#e0e9f6; !important'
                         },
 
+
                         items: [{
                             xtype: 'textfield',
                             name: 'nameProfile',
@@ -131,7 +136,6 @@ Ext.onReady(function () {
                             inputWrapCls: 'textboxasLabel',
                             fieldCls: 'textboxasLabel',
                             readOnly: true,
-
                         },
                             {
                                 xtype: 'textareafield',
@@ -142,17 +146,41 @@ Ext.onReady(function () {
                                 fieldCls: 'description',
                                 readOnly: true,
                                 autoScroll: false,
+                            },
+                            {
+
+                                addRow : function(rowLabel) {
+                                    this.add({
+                                        xtype: 'fieldcontainer',
+                                        fieldLabel: rowLabel,
+                                        labelWidth: '100%',
+                                        labelStyle: 'font-weight: bold; font-size: 20px;',
+                                        layout: 'hbox',
+                                        items: [{
+                                            xtype: 'textfield',
+                                            flex: 1
+                                        }, {
+                                            xtype: 'textfield',
+                                            flex: 1
+                                        }]
+                                    });
+                                }
 
 
                             }
-                    ]}]
+
+
+                    ]}
+                    ]
 
 
             });
             me.callParent();
-            if (me.record !== undefined) {
-                me.down('form').loadRecord(me.record);
-            }
+            // if (me.record !== undefined) {
+            //     me.down('form').loadRecord(me.record);
+            // }
+
+            // Ext.ComponentQuery.query('textfield[name=question1]')[0].setValue(me.record.data.questionList[0].nameQuestion);
         }
     });
 

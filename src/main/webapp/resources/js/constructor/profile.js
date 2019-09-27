@@ -27,7 +27,9 @@ Ext.onReady(function () {
                         name: 'description',
                         fieldLabel: 'Описание:',
                         height:200,
-                        width:750
+                        width:750,
+                        maxLength: 200
+
 
                     },
 
