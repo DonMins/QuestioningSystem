@@ -22,7 +22,7 @@ button:hover{
 }
 
 .textboxasLabel {
-    position: fixed;
+    /*position: fixed;*/
     text-align: center;
     font-size: 35pt !important;
     border: none !important;
@@ -31,7 +31,7 @@ button:hover{
     background-color: transparent !important;
 }
 .description{
-    position: fixed;
+    /*position: fixed;*/
     text-align: center;
     font-size: 15pt !important;
     border: none !important;
@@ -45,4 +45,9 @@ button:hover{
     border-width: 0 !important;
     background-image: none !important;
     background-color: transparent !important;
+    top:400px;
+}
+.cla{
+    text-align: center;
+    font-size: 15pt !important;
 }

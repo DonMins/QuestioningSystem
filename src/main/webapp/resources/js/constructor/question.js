@@ -218,7 +218,7 @@ Ext.onReady(function () {
                                     winEditQuestion.show();
                                 }
                             }
-                            if(cellIndex ===3){
+                            if(cellIndex ===4){
                                 Ext.Msg.confirm("Удалить","Вы действительно хотите удалить вопрос? ",
                                     function(btn){
                                         if (btn === "yes") {
