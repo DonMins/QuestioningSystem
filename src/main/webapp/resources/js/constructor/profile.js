@@ -78,6 +78,7 @@ Ext.onReady(function () {
         }
         if (winCreateProfile.isVisible()) {
             winCreateProfile.close();
+
         } else {
             winCreateProfile.show();
         }

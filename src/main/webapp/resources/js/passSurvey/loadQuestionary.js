@@ -122,8 +122,9 @@ Ext.onReady(function () {
                                          answerList.push({
                                              boxLabel: record.data.questionList[i].answerOptions[j].nameAnswerOptions,
                                              name: 'radio'+i,
-                                             inputValue: j,
+                                             inputValue: record.data.questionList[i].answerOptions[j].idAnswerOptions,
                                              style: 'font-size: 14px;margin-top: 20px; margin-left:33%;',
+
                                          })
                                     }
 
@@ -132,6 +133,7 @@ Ext.onReady(function () {
                                         columns: 1,
                                         vertical: true,
                                         items: answerList,
+                                        name: 'radio'+i
                                     });
                                 }
                                 addRow.push({
@@ -142,8 +144,50 @@ Ext.onReady(function () {
                                     width: 80,
                                     listeners: {
                                         click: function() {
-                                           this.setText('I was clicked!');
-                                           form.down('radiogroup').reset();
+                                           var isEmpty = false;
+                                           for (let i=0;i<countQuestion;i++){
+                                               if(Ext.ComponentQuery.query('radiogroup[name=radio'+i+']')[0].getValue()['radio'+i] ===undefined){
+                                                   isEmpty=true;
+                                                   break;
+                                               }
+                                           }
+                                           if (isEmpty){
+                                               Ext.Msg.alert("Status", "Ответти на все вопросы!!!");
+                                           }
+                                           else {
+                                               var param =[];
+                                               for (let i = 0; i <countQuestion; i++) {
+                                                   console.log("idQuestion " + record.data.questionList[i].idQuestion);
+                                                   var idQuestion = record.data.questionList[i].idQuestion;
+                                                   console.log(Ext.ComponentQuery.query('radiogroup[name=radio' + i + ']')[0].getValue()['radio' + i]);
+                                                   var idAnswer = Ext.ComponentQuery.query('radiogroup[name=radio' + i + ']')[0].getValue()['radio' + i]
+
+                                                   param.push(
+                                                       {
+                                                           idAnswerOptions: idAnswer,
+                                                       },
+                                                       );
+                                               }
+
+                                               console.log(param);
+                                               Ext.Ajax.request({
+                                                   url: saveQuestionary,
+                                                   dataType: 'json',
+                                                   method: 'POST',
+                                                   headers: {
+                                                       "X-CSRF-TOKEN": token
+                                                   },
+                                                   jsonData: param,
+                                                   params:{username:login},
+
+                                                   success: function (response, options) {
+                                                       alert("Отправил")
+                                                   },
+                                                   failure: function (response, options) {
+                                                       Ext.Msg.alert('Status', 'Что-то пошло не так!');
+                                                   }
+                                               });
+                                           }
                                         }
                                     }
 
